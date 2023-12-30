@@ -220,6 +220,8 @@ const editCategory = () => {
     })
     setData("categories", currentData)
     renderCategories(currentData)
+    renderCategoriesOptions(currentData)
+    renderInputCategoriesOptions(currentData)
 }
 
 //Delete category
@@ -234,6 +236,8 @@ const confirmDeleteCategory = (categoryId) => {
     renderCategories(deleteCategory(categoryId))
     const currentData = getData("operations").filter(operation => operation.category != categoryId)
     setData("operations", currentData)
+    renderCategoriesOptions(deleteCategory(categoryId))
+    renderInputCategoriesOptions((categoryId))
 }
 
 
@@ -263,6 +267,13 @@ const renderCategoriesOptions = (categories) => {
     }
 }
 
+const renderInputCategoriesOptions = (categories) => {
+    for (const category of categories) {
+        $("#inputCategories").innerHTML += `
+            <option value= "${category.id}">${category.name}</option>
+        `
+    }
+}
 // -------------------- EVENTS --------------------//
 
 const initialize = () => {
@@ -273,6 +284,7 @@ const initialize = () => {
     iterateOperations(allOperation)
     renderCategories(allCategories)
     renderCategoriesOptions(allCategories)
+    renderInputCategoriesOptions(allCategories)
 
     // ---- MENU EVENTS ---- //
 
