@@ -283,6 +283,7 @@ const initialize = () => {
 
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#showCategories').addEventListener('click', () => {
@@ -298,6 +299,7 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#show-Categories').addEventListener('click', () => {
