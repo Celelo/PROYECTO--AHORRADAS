@@ -15,9 +15,9 @@
 <body class="bg-[#d9c0d8]">
     <!-- INICIO HEADER -->
     <header class="flex w-full bg-[#886a8e] h-24 shadow-2xl">
-        <div class="flex items-center text-[2rem] text-white ml-5 grow">
-            <i class="fa-solid fa-piggy-bank fa-bounce mr-2"></i>
-            <h1 class="">
+        <div class="flex items-center text-[2rem] text-white ml-5 grow cursor-pointer" id="homeButton">
+            <i class="fa-solid fa-piggy-bank fa-bounce mr-2 cursor-pointer"></i>
+            <h1 class="cursor-pointer font-mono">
                 ahorrADAs
             </h1>
         </div>
@@ -54,7 +54,7 @@
             <!-- Menú hamburguesa -->
             <div class="pt-6 pr-6 md:hidden">
                 <button id="burger-btn"
-                    class="p-2.5 px-4 bg-[#b899bc] border-2 border-white rounded-[1000px] mr-2.5 hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100">
+                    class="p-2.5 px-4 bg-[#b899bc] border-2 border-white rounded-[1000px] mr-2.5 hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100 font-mono">
                     <i class="fas fa-bars" aria-hidden="true"></i>
                     Menú
                 </button>
@@ -72,25 +72,25 @@
 
 
         <!-- Navbar pantallas chicas -->
-        <div  id="burgerMenu" class="hidden lg:hidden bg-[#b899bc] w-screen" >
+        <div  id="burgerMenu" class="hidden lg:hidden bg-[#b899bc] w-screen text-white" >
             <ul>
 
                 <li id="show-Balance">
-                    <button class="w-full p-2.5 text-left hover:bg-gray-200" >
+                    <button class="w-full p-2.5 text-left hover:bg-[#a183a2]" >
                         <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
                         Balance
                     </button>
                 </li>
 
                 <li>
-                    <button class="w-full p-2.5 text-left hover:bg-gray-200" id="show-Categories">
+                    <button class="w-full p-2.5 text-left hover:bg-[#a183a2]" id="show-Categories">
                         <i class="fas fa-tag mr-2" aria-hidden="true"></i>
                         Categorías
                     </button>
                 </li>
 
                 <li>
-                    <button class="w-full p-2.5 text-left hover:bg-gray-200" id="show-Reports">
+                    <button class="w-full p-2.5 text-left hover:bg-[#a183a2]" id="show-Reports">
                         <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
                         Reportes
                     </button>

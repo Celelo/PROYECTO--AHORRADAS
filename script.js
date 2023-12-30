@@ -286,6 +286,13 @@ const initialize = () => {
     renderCategoriesOptions(allCategories)
     renderInputCategoriesOptions(allCategories)
 
+    // ---- LOGO ---- //
+
+    $('#homeButton').addEventListener('click', () => {
+        showScreens("Balance")
+        window.location.reload()
+    }) 
+
     // ---- MENU EVENTS ---- //
 
 
