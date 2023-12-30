@@ -1,10 +1,12 @@
 // ---------------------- UTILITIES ----------------------//
 
 // query selectors //
+
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
-// This function shows a screen and hide the others which are not in use //
+
+// show main screens //
 
 const showScreens = (screenName) => {
     const screens = $$('.screen')
@@ -16,9 +18,11 @@ const showScreens = (screenName) => {
     $(`#container${screenName}`).classList.remove('hidden')
 }
 
+// cleaner //
+
 const cleanContainer = (selector) => $(selector).innerHTML = ""
 
-// This function removes hidden class//
+
 
 const remove = (selectors) => {
     for (const selector of selectors) {
@@ -26,43 +30,38 @@ const remove = (selectors) => {
     }
 }
 
-// This function adds hidden class//
-
 const add = (selectors) => {
     for (const selector of selectors) {
         $(selector).classList.add('hidden')
     }
 }
 
-// This function creates Random IDs //
+// ID creators
 
 const randomId = () => self.crypto.randomUUID()
 
 // -------------------- LOCAL STORAGE --------------------//
 
-// enviar datos
+// senders and receivers
+
 const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
-// pedir info
+
 const getData = (key) => JSON.parse(localStorage.getItem(key))
 
-// cuando se inicialice va aguardar toda las operaciones de (trae la info del localStorage)
-const allOperation = getData('operations') || [] // que me traiga la info del local, pero si no hay, que traiga un array vacio
+// Default setters
+
+const allOperation = getData('operations') || []
+
+const allCategories = getData("categories") || defaultCategories
 
 const askForData = () => {
     getData()
 
 }
 
+// -------------------- RENDERS --------------------//
 
-// -------------------- OPERATIONS --------------------//
-
-// Obtener operación por su ID
-const getOperationById = (id) => {
-    const operations = getData('operations');
-    return operations.find(operation => operation.id === id) || null;
-};
-
-//New operation 
+// Operations 
 
 const iterateOperations = (operations) => {
     
@@ -84,9 +83,48 @@ const iterateOperations = (operations) => {
     }
 }
 
+// Categories
 
-//guarda el value de los inputs como objetos
+const renderCategories = (categories) => {
+    cleanContainer('#categoriesTable')
+    for (const category of categories) {
+        $("#categoriesTable").innerHTML += `
+            <tr class="flex w-[100%] justify-between">
+                <td class= "text-[1.3rem]">${category.name}</td>
+                <td>
+                    <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%]" onclick= "showEditCategory('${category.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                    <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] mr-1" onclick= "confirmDeleteCategory('${category.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                </td>
+            </tr>
+            <hr class= "text-black text-1 my-1.5"/>
+        `
+    }
+}
 
+const renderCategoriesOptions = (categories) => {
+    for (const category of categories) {
+        $("#categories").innerHTML += `
+            <option value= "${category.id}">${category.name}</option>
+        `
+    }
+}
+
+const renderInputCategoriesOptions = (categories) => {
+    for (const category of categories) {
+        $("#inputCategories").innerHTML += `
+            <option value= "${category.id}">${category.name}</option>
+        `
+    }
+}
+
+// -------------------- OPERATIONS FUNCTIONS --------------------//
+
+const getOperationById = (id) => {
+    const operations = getData('operations');
+    return operations.find(operation => operation.id === id) || null;
+};
+
+// Value containers
 
 const infoForm = () => {
     return {
@@ -100,35 +138,28 @@ const infoForm = () => {
 }
 
 
-// editar operacion
+// Edit operation 
+
 const showFormEdit = (operationId) => {
     add(['.balance-screen', '#addButtonNo'])
-    remove(['.new-operarion-screen', '#addEditButtonNo'])
-    // trae el mismo id que tiene la operacion en la cual hiciste click sin inportar cuantas veces lo vuelvas a clickear va a seguir siendo el mismo id 
+    remove(['.new-operarion-screen', '#addEditButtonNo']) 
     console.log(operationId)
-
-    // traigo lo que esta en el localStorage y el find me trae el array de la operacion a la que le hago click
     const operationSelected = getData('operations').find(operation => operation.id === operationId)
     console.log(operationSelected)
-
-    // aca le decimos que por cada value del input me muestre el que ya esta prescrito en el localStorage de la operacion en la que le estoy haciendo click
     $('#descriptionNo').value = operationSelected.description
     $('#amountNo').value = operationSelected.amount
     $('#typeSelect').value = operationSelected.type
     $('#categories').value = operationSelected.category
     $('#inputDate').value = operationSelected.date
-
-    // ahora me voy al boton aceptar para meter el id 
-    // le agrego un atributo. data-id ahora tiene el id de la operacion que clickeamos
     $('#addEditButtonNo').setAttribute('data-id', operationId)
 }
 
 
 
-// eliminar operacion
+// Delete operation 
+
 const showDeleteOperation = (operationId) => {
     remove(['#deleteWindow'])
-
     $('#deleteButtonNo').setAttribute('data-id', operationId)
     $('#deleteButtonNo').addEventListener('click', () => {
         const operationId = $('#deleteButtonNo').getAttribute('data-id')
@@ -138,17 +169,15 @@ const showDeleteOperation = (operationId) => {
 }
 
 const deleteDate = (operationId) => {
-    // pedimos las operaciones y las filtramos diciendo que nos arme un array con las operaciones que no coinciden con el id de la opacion clickeada, menos, a la si coincide 
     const currentData = getData('operations').filter(operation => operation.id != operationId)
     setData('operations', currentData)
     window.location.reload()
 }
 
-// -------------------- CATEGORIES --------------------//
-
-// General functions 
+// -------------------- CATEGORIES FUNCTIONS --------------------//
 
 //Default
+
 const defaultCategories = [
     {
         id: randomId(),
@@ -176,9 +205,7 @@ const defaultCategories = [
     }
 ]
 
-const allCategories = getData("categories") || defaultCategories
-
-// New categories
+// New categories 
 
 const createCategory = () => {
     return {
@@ -192,6 +219,7 @@ const addCategory = () => {
     currentData.push(createCategory())
     setData("categories", currentData)
     renderCategories(currentData)
+    $("#categoriesInput").reset() 
 }
 
 // Edit Categories
@@ -240,60 +268,28 @@ const confirmDeleteCategory = (categoryId) => {
     renderInputCategoriesOptions((categoryId))
 }
 
-
-//This function reder categories
-
-const renderCategories = (categories) => {
-    cleanContainer('#categoriesTable')
-    for (const category of categories) {
-        $("#categoriesTable").innerHTML += `
-            <tr class="flex w-[100%] justify-between">
-                <td class= "text-[1.3rem]">${category.name}</td>
-                <td>
-                    <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%]" onclick= "showEditCategory('${category.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
-                    <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] mr-1" onclick= "confirmDeleteCategory('${category.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
-                </td>
-            </tr>
-            <hr class= "text-black text-1 my-1.5"/>
-        `
-    }
-}
-
-const renderCategoriesOptions = (categories) => {
-    for (const category of categories) {
-        $("#categories").innerHTML += `
-            <option value= "${category.id}">${category.name}</option>
-        `
-    }
-}
-
-const renderInputCategoriesOptions = (categories) => {
-    for (const category of categories) {
-        $("#inputCategories").innerHTML += `
-            <option value= "${category.id}">${category.name}</option>
-        `
-    }
-}
 // -------------------- EVENTS --------------------//
 
 const initialize = () => {
-    // en operations envia allOperation (este tiene todas las operaciones realizadas almacenadas)
+    
+    //----------------- LOCAL STORAGE -----------------//
+
     setData('operations', allOperation)
     setData('categories', allCategories)
-    // ambes de iniciar  renderOperations abajo de la misma , la inicializamos aca con las operaciones ya obtenidas y parseadas del localStorage
+
     iterateOperations(allOperation)
     renderCategories(allCategories)
     renderCategoriesOptions(allCategories)
     renderInputCategoriesOptions(allCategories)
 
-    // ---- LOGO ---- //
+    //----------------- LOGO EVENTS-----------------//
 
     $('#homeButton').addEventListener('click', () => {
         showScreens("Balance")
         window.location.reload()
     }) 
 
-    // ---- MENU EVENTS ---- //
+    //----------------- MENU EVENTS-----------------//
 
 
     $('#burger-btn').addEventListener('click', () => {
@@ -313,7 +309,7 @@ const initialize = () => {
         showScreens("Reports")
     })
 
-    // ---- BURGER MENU EVENTS ---- //
+    //-----------------BURGER MENU EVENTS-----------------//
 
 
     $('#show-Balance').addEventListener('click', () => {
@@ -330,7 +326,7 @@ const initialize = () => {
     })
 
 
-    //nueva operacion
+    //-----------------OPERATIONS SCREEN EVENTS-----------------//
 
 
     $('#btnNewOperation').addEventListener('click', () => {
@@ -395,7 +391,6 @@ const initialize = () => {
     $("#addCategoryButton").addEventListener('click' , (e) => {
         e.preventDefault()
         addCategory()
-        $("#categoriesInput").reset() 
         showScreens("Categories")
     })
 
