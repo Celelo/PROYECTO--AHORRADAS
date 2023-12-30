@@ -102,6 +102,7 @@ const renderCategories = (categories) => {
 }
 
 const renderCategoriesOptions = (categories) => {
+    cleanContainer("#categories")
     for (const category of categories) {
         $("#categories").innerHTML += `
             <option value= "${category.id}">${category.name}</option>
@@ -110,6 +111,7 @@ const renderCategoriesOptions = (categories) => {
 }
 
 const renderInputCategoriesOptions = (categories) => {
+    cleanContainer("#inputCategories")
     for (const category of categories) {
         $("#inputCategories").innerHTML += `
             <option value= "${category.id}">${category.name}</option>
@@ -219,6 +221,8 @@ const addCategory = () => {
     currentData.push(createCategory())
     setData("categories", currentData)
     renderCategories(currentData)
+    renderCategoriesOptions(currentData)
+    renderInputCategoriesOptions(currentData)
     $("#categoriesInput").reset() 
 }
 
@@ -265,7 +269,7 @@ const confirmDeleteCategory = (categoryId) => {
     const currentData = getData("operations").filter(operation => operation.category != categoryId)
     setData("operations", currentData)
     renderCategoriesOptions(deleteCategory(categoryId))
-    renderInputCategoriesOptions((categoryId))
+    renderInputCategoriesOptions(deleteCategory(categoryId))
 }
 
 // -------------------- EVENTS --------------------//
@@ -298,7 +302,6 @@ const initialize = () => {
 
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
 
     $('#showCategories').addEventListener('click', () => {
@@ -314,7 +317,6 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
 
     $('#show-Categories').addEventListener('click', () => {
