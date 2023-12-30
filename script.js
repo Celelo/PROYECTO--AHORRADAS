@@ -76,8 +76,8 @@ const iterateOperations = (operations) => {
                     <td class="p-2">${operation.date}</td>
                     <td class="p-2">${operation.amount}</td>
                     <td class="p-2 flex flex-col space-y-2">
-                        <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showEditCategory('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
-                        <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "confirmDeleteCategory('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                        <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                        <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
                     </td>
                 </tr>
     `
