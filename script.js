@@ -94,7 +94,7 @@ const askForData = () => {
 // Operations 
 
 const iterateOperations = (operations) => {
-    cleanContainer('#categoriesTable')
+    cleanContainer('#tableOperations')
     for (const operation of operations) {
         const categorySelected = getData("categories").find(category => category.id === operation.category)
         $("#tableOperations").innerHTML += `
@@ -163,7 +163,7 @@ const infoForm = () => {
         description: $('#descriptionNo').value,
         amount: $('#amountNo').value,
         type: $('#typeSelect').value,
-        category: $('#categories').value,
+        category: $('#inputCategories').value,
         date: $('#inputDate').value
     };
 }
@@ -269,9 +269,9 @@ const deleteCategory = (categoryId) => {
 }
 
 const confirmDeleteCategory = (categoryId) => {
-    renderCategories(deleteCategory(categoryId))
     const currentData = getData("operations").filter(operation => operation.category != categoryId)
     setData("operations", currentData)
+    renderCategories(deleteCategory(categoryId))
     renderCategoriesOptions(deleteCategory(categoryId))
     renderInputCategoriesOptions(deleteCategory(categoryId))
 }
@@ -306,6 +306,7 @@ const initialize = () => {
 
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#showCategories').addEventListener('click', () => {
@@ -321,6 +322,7 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#show-Categories').addEventListener('click', () => {
@@ -401,7 +403,6 @@ const initialize = () => {
         showScreens("Categories")
         
     })
-
 
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
