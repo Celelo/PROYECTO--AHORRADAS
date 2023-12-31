@@ -94,10 +94,10 @@ const askForData = () => {
 // Operations 
 
 const iterateOperations = (operations) => {
+    cleanContainer('#categoriesTable')
     for (const operation of operations) {
-        cleanContainer('#tableOperations')
         const categorySelected = getData("categories").find(category => category.id === operation.category)
-        $('#tableOperations').innerHTML += `
+        $("#tableOperations").innerHTML += `
         <tr class="border-b">
                     <td class="p-4">${operation.description}</td>
                     <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
@@ -168,6 +168,12 @@ const infoForm = () => {
     };
 }
 
+const addOperation = () => {
+    const currentData = getData("operations")
+    currentData.push(infoForm())
+    setData("operations", currentData)
+    iterateOperations(currentData)
+}
 
 // Edit operation 
 
@@ -184,8 +190,6 @@ const showFormEdit = (operationId) => {
     $('#inputDate').value = operationSelected.date
     $('#addEditButtonNo').setAttribute('data-id', operationId)
 }
-
-
 
 // Delete operation 
 
@@ -206,10 +210,6 @@ const deleteDate = (operationId) => {
 }
 
 // -------------------- CATEGORIES FUNCTIONS --------------------//
-
-//Default
-
-
 
 // New categories 
 
@@ -280,8 +280,6 @@ const confirmDeleteCategory = (categoryId) => {
 
 const initialize = () => {
 
-    
-    
     //----------------- LOCAL STORAGE -----------------//
 
     setData('operations', allOperation)
@@ -361,18 +359,9 @@ const initialize = () => {
     })
 
 
-    $('#addButtonNo').addEventListener('click', () => {
-        // guardamos los valores de los inputs en una costante
-        // const newOperation = saveOperationInfo()
-        // setData('operations', newOperation)
-
-        // pasos antes de iterar rn psntalla:
-        //1. te volves a traer la info actualizada del local (se vuelve en formato array por que getData lo pasea)
-        const updatedtData = getData('operations')
-        // 2. pusheas la funcion saveOperationInfo() que tiene todos los values del formulario
-        updatedtData.push(infoForm())
-        // 3. ahora ya modificado ahora si se puede mandar a setData el cual lo introduce al localStorage
-        setData('operations', updatedtData) // haciendo estos pasos metimos al objeto adentro de un array para poder ser iterado
+    $('#addButtonNo').addEventListener('click', (e) => {
+        e.preventDefault()
+        addOperation()
         window.location.reload()
     })
 
