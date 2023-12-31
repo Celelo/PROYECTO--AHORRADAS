@@ -355,7 +355,7 @@ const initialize = () => {
     })
     // mostrar filtros
     $('#haddenFilters').addEventListener('click', () => {
-        $('.section-filters').style.height = '63vh'
+        $('.section-filters').style.height = '57vh'
         remove(['.filters', '#hiddenFilters'])
         add(['#haddenFilters'])
     })
