@@ -218,6 +218,10 @@ const calculateBalance = (operationType) => {
     return acc
 }
 
+const calculateTotalBalance = () => {
+    return calculateBalance("Ganancia") - calculateBalance("Gasto")
+}
+
 // -------------------- CATEGORIES FUNCTIONS --------------------//
 
 // New categories 
@@ -302,6 +306,8 @@ const initialize = () => {
     $("#incomeBalance").innerHTML = `+$${calculateBalance("Ganancia")}`
 
     $("#expensesBalance").innerHTML = `-$${calculateBalance("Gasto")}`
+
+    $("#totalBalance").innerHTML = `$${calculateTotalBalance()}`
 
     //----------------- LOGO EVENTS-----------------//
 
