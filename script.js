@@ -48,6 +48,36 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const getData = (key) => JSON.parse(localStorage.getItem(key))
 
+//Default info
+
+const defaultCategories = [
+    {
+        id: randomId(),
+        name: "Comida"
+    },
+    {
+        id: randomId(),
+        name: "Servicios"
+    },
+    {
+        id: randomId(),
+        name: "Salidas"
+    },
+    {
+        id: randomId(),
+        name: "Educación"
+    },
+    {
+        id: randomId(),
+        name: "Transporte"
+    },
+    {
+        id: randomId(),
+        name: "Trabajo"
+    }
+]
+
+
 // Default setters
 
 const allOperation = getData('operations') || []
@@ -64,7 +94,6 @@ const askForData = () => {
 // Operations 
 
 const iterateOperations = (operations) => {
-    
     for (const operation of operations) {
         cleanContainer('#tableOperations')
         const categorySelected = getData("categories").find(category => category.id === operation.category)
@@ -180,32 +209,7 @@ const deleteDate = (operationId) => {
 
 //Default
 
-const defaultCategories = [
-    {
-        id: randomId(),
-        name: "Comida"
-    },
-    {
-        id: randomId(),
-        name: "Servicios"
-    },
-    {
-        id: randomId(),
-        name: "Salidas"
-    },
-    {
-        id: randomId(),
-        name: "Educación"
-    },
-    {
-        id: randomId(),
-        name: "Transporte"
-    },
-    {
-        id: randomId(),
-        name: "Trabajo"
-    }
-]
+
 
 // New categories 
 
@@ -275,6 +279,8 @@ const confirmDeleteCategory = (categoryId) => {
 // -------------------- EVENTS --------------------//
 
 const initialize = () => {
+
+    
     
     //----------------- LOCAL STORAGE -----------------//
 
@@ -385,6 +391,8 @@ const initialize = () => {
         setData('operations', currentData)
         window.location.reload()
     })
+
+
 
     //-----------------CATEGORIES SCREEN EVENTS-----------------//
 
