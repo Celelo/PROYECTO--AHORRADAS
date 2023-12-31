@@ -544,7 +544,7 @@ const initialize = () => {
         filterByDate()
     })
 
-    $("#sortBy").addEventListener("click" , () => {
+    $("#sortBy").addEventListener("change" , () => {
         sortBy()
     })
 
