@@ -161,7 +161,7 @@ const infoForm = () => {
     return {
         id: randomId(),
         description: $('#descriptionNo').value,
-        amount: $('#amountNo').value,
+        amount: parseInt($('#amountNo').value),
         type: $('#typeSelect').value,
         category: $('#inputCategories').value,
         date: $('#inputDate').value
@@ -207,6 +207,15 @@ const deleteDate = (operationId) => {
     const currentData = getData('operations').filter(operation => operation.id != operationId)
     setData('operations', currentData)
     window.location.reload()
+}
+
+const calculateBalance = (operationType) => {
+    const currentData = getData("operations").filter(operation => operation.type === operationType)
+    let acc = 0
+    for (const operation of currentData) {
+        acc += operation.amount
+    }
+    return acc
 }
 
 // -------------------- CATEGORIES FUNCTIONS --------------------//
@@ -276,7 +285,7 @@ const confirmDeleteCategory = (categoryId) => {
     renderInputCategoriesOptions(deleteCategory(categoryId))
 }
 
-// -------------------- EVENTS --------------------//
+// -------------------- ******EVENTS ******--------------------//
 
 const initialize = () => {
 
@@ -289,6 +298,10 @@ const initialize = () => {
     renderCategories(allCategories)
     renderCategoriesOptions(allCategories)
     renderInputCategoriesOptions(allCategories)
+
+    $("#incomeBalance").innerHTML = `+$${calculateBalance("Ganancia")}`
+
+    $("#expensesBalance").innerHTML = `-$${calculateBalance("Gasto")}`
 
     //----------------- LOGO EVENTS-----------------//
 
