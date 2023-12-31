@@ -254,6 +254,104 @@ const filterByDate = () => {
     const currentData = getData("operations").filter(operation => operation.date > value)
     iterateOperations(currentData)
 }
+
+// // Sort 
+
+
+const sortBy = () => {
+    const value = $("#sortBy").value
+    if (value === "A/Z") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                return 1;
+            }
+            if (a.description.toLowerCase() < b.description.toLowerCase()) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    } 
+    if (value === "Z/A") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.description.toLowerCase() < b.description.toLowerCase()) {
+                return 1;
+            }
+            if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    }
+    if (value === "Mayor monto") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.amount < b.amount) {
+                return 1;
+            }
+            if (a.amount > b.amount) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    }
+    if (value === "Menor monto") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.amount > b.amount) {
+                return 1;
+            }
+            if (a.amount < b.amount) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    }
+    if (value === "Más reciente") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.date < b.date) {
+                return 1;
+            }
+            if (a.date > b.date) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    }
+    if (value === "Menos reciente") {
+        const operations = getData("operations")
+        console.log(operations)
+        const currentData = operations.sort(function (a, b) {
+            if (a.date > b.date) {
+                return 1;
+            }
+            if (a.date < b.date) {
+                return -1;
+            }
+            return 0;
+        })
+        setData("operations", currentData)
+        iterateOperations(currentData)
+    }
+}
+
 // -------------------- CATEGORIES FUNCTIONS --------------------//
 
 // New categories 
@@ -444,6 +542,10 @@ const initialize = () => {
 
     $("#date").addEventListener("change" , () => {
         filterByDate()
+    })
+
+    $("#sortBy").addEventListener("click" , () => {
+        sortBy()
     })
 
     //-----------------CATEGORIES SCREEN EVENTS-----------------//
