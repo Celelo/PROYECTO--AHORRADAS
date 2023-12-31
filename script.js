@@ -186,7 +186,7 @@ const showFormEdit = (operationId) => {
     $('#descriptionNo').value = operationSelected.description
     $('#amountNo').value = operationSelected.amount
     $('#typeSelect').value = operationSelected.type
-    $('#categories').value = operationSelected.category
+    $('#inputCategories').value = operationSelected.category
     $('#inputDate').value = operationSelected.date
     $('#addEditButtonNo').setAttribute('data-id', operationId)
 }
