@@ -94,10 +94,10 @@ const askForData = () => {
 // Operations 
 
 const iterateOperations = (operations) => {
+    cleanContainer('#tableOperations')
     for (const operation of operations) {
-        cleanContainer('#tableOperations')
         const categorySelected = getData("categories").find(category => category.id === operation.category)
-        $('#tableOperations').innerHTML += `
+        $("#tableOperations").innerHTML += `
         <tr class="border-b">
                     <td class="p-4">${operation.description}</td>
                     <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
@@ -161,13 +161,19 @@ const infoForm = () => {
     return {
         id: randomId(),
         description: $('#descriptionNo').value,
-        amount: $('#amountNo').value,
+        amount: parseInt($('#amountNo').value),
         type: $('#typeSelect').value,
-        category: $('#categories').value,
+        category: $('#inputCategories').value,
         date: $('#inputDate').value
     };
 }
 
+const addOperation = () => {
+    const currentData = getData("operations")
+    currentData.push(infoForm())
+    setData("operations", currentData)
+    iterateOperations(currentData)
+}
 
 // Edit operation 
 
@@ -180,12 +186,10 @@ const showFormEdit = (operationId) => {
     $('#descriptionNo').value = operationSelected.description
     $('#amountNo').value = operationSelected.amount
     $('#typeSelect').value = operationSelected.type
-    $('#categories').value = operationSelected.category
+    $('#inputCategories').value = operationSelected.category
     $('#inputDate').value = operationSelected.date
     $('#addEditButtonNo').setAttribute('data-id', operationId)
 }
-
-
 
 // Delete operation 
 
@@ -205,11 +209,16 @@ const deleteDate = (operationId) => {
     window.location.reload()
 }
 
+const calculateBalance = (operationType) => {
+    const currentData = getData("operations").filter(operation => operation.type === operationType)
+    let acc = 0
+    for (const operation of currentData) {
+        acc += operation.amount
+    }
+    return acc
+}
+
 // -------------------- CATEGORIES FUNCTIONS --------------------//
-
-//Default
-
-
 
 // New categories 
 
@@ -269,19 +278,17 @@ const deleteCategory = (categoryId) => {
 }
 
 const confirmDeleteCategory = (categoryId) => {
-    renderCategories(deleteCategory(categoryId))
     const currentData = getData("operations").filter(operation => operation.category != categoryId)
     setData("operations", currentData)
+    renderCategories(deleteCategory(categoryId))
     renderCategoriesOptions(deleteCategory(categoryId))
     renderInputCategoriesOptions(deleteCategory(categoryId))
 }
 
-// -------------------- EVENTS --------------------//
+// -------------------- ******EVENTS ******--------------------//
 
 const initialize = () => {
 
-    
-    
     //----------------- LOCAL STORAGE -----------------//
 
     setData('operations', allOperation)
@@ -291,6 +298,10 @@ const initialize = () => {
     renderCategories(allCategories)
     renderCategoriesOptions(allCategories)
     renderInputCategoriesOptions(allCategories)
+
+    $("#incomeBalance").innerHTML = `+$${calculateBalance("Ganancia")}`
+
+    $("#expensesBalance").innerHTML = `-$${calculateBalance("Gasto")}`
 
     //----------------- LOGO EVENTS-----------------//
 
@@ -308,6 +319,7 @@ const initialize = () => {
 
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#showCategories').addEventListener('click', () => {
@@ -323,6 +335,7 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
+        window.location.reload()
     }) 
 
     $('#show-Categories').addEventListener('click', () => {
@@ -355,24 +368,15 @@ const initialize = () => {
     })
     // mostrar filtros
     $('#haddenFilters').addEventListener('click', () => {
-        $('.section-filters').style.height = '63vh'
+        $('.section-filters').style.height = '57vh'
         remove(['.filters', '#hiddenFilters'])
         add(['#haddenFilters'])
     })
 
 
-    $('#addButtonNo').addEventListener('click', () => {
-        // guardamos los valores de los inputs en una costante
-        // const newOperation = saveOperationInfo()
-        // setData('operations', newOperation)
-
-        // pasos antes de iterar rn psntalla:
-        //1. te volves a traer la info actualizada del local (se vuelve en formato array por que getData lo pasea)
-        const updatedtData = getData('operations')
-        // 2. pusheas la funcion saveOperationInfo() que tiene todos los values del formulario
-        updatedtData.push(infoForm())
-        // 3. ahora ya modificado ahora si se puede mandar a setData el cual lo introduce al localStorage
-        setData('operations', updatedtData) // haciendo estos pasos metimos al objeto adentro de un array para poder ser iterado
+    $('#addButtonNo').addEventListener('click', (e) => {
+        e.preventDefault()
+        addOperation()
         window.location.reload()
     })
 
@@ -412,7 +416,6 @@ const initialize = () => {
         showScreens("Categories")
         
     })
-
 
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
