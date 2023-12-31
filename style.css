@@ -1,0 +1,17 @@
+/* RESPONSIVE */
+@media (max-width:950px) {
+    .balance-screen {
+        flex-direction: column;
+        padding-top: 160px;
+    }
+    div[class*="operations-section"] {
+        width: 99%;
+    }
+    .container-balance-filters {
+        padding-right: 0;
+    }
+    .operations-btn-title {
+        flex-direction: column;
+        padding-bottom: 5px;
+    }
+}
