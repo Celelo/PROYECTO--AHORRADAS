@@ -132,6 +132,9 @@ const renderCategories = (categories) => {
 
 const renderCategoriesOptions = (categories) => {
     cleanContainer("#categories")
+    $("#categories").innerHTML = `
+            <option value= "Todas">Todas</option>
+        `
     for (const category of categories) {
         $("#categories").innerHTML += `
             <option value= "${category.id}">${category.name}</option>
@@ -165,8 +168,10 @@ const infoForm = () => {
         type: $('#typeSelect').value,
         category: $('#inputCategories').value,
         date: $('#inputDate').value
-    };
+    }
 }
+
+// Add operation
 
 const addOperation = () => {
     const currentData = getData("operations")
@@ -208,6 +213,7 @@ const deleteDate = (operationId) => {
     setData('operations', currentData)
     window.location.reload()
 }
+// Balance
 
 const calculateBalance = (operationType) => {
     const currentData = getData("operations").filter(operation => operation.type === operationType)
@@ -218,10 +224,36 @@ const calculateBalance = (operationType) => {
     return acc
 }
 
-const calculateTotalBalance = () => {
-    return calculateBalance("Ganancia") - calculateBalance("Gasto")
+const calculateTotalBalance = () =>  calculateBalance("Ganancia") - calculateBalance("Gasto")
+
+// Filters
+
+const filterByType = () => {
+    const value = $("#type").value
+    if (value != "Todos") {
+        const currentData = getData("operations").filter(operation => operation.type === value)
+        iterateOperations(currentData)
+    } else {
+        iterateOperations(allOperation)
+    }
 }
 
+const filterByCategory = () => {
+    const value = $("#categories").value
+    if (value != "Todas") {
+        const currentData = getData("operations").filter(operation => operation.category === value)
+        iterateOperations(currentData)
+    } else {
+        iterateOperations(allOperation)
+    }
+}
+
+const filterByDate = () => {
+    const value = $("#date").value
+    console.log(value)
+    const currentData = getData("operations").filter(operation => operation.date > value)
+    iterateOperations(currentData)
+}
 // -------------------- CATEGORIES FUNCTIONS --------------------//
 
 // New categories 
@@ -402,7 +434,17 @@ const initialize = () => {
         window.location.reload()
     })
 
+    $("#type").addEventListener("click" , () => {
+        filterByType()
+    })
 
+    $("#categories").addEventListener("click" , () => {
+        filterByCategory()
+    })
+
+    $("#date").addEventListener("change" , () => {
+        filterByDate()
+    })
 
     //-----------------CATEGORIES SCREEN EVENTS-----------------//
 
