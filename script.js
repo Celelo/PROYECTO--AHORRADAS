@@ -195,9 +195,9 @@ const infoForm = () => {
 // Add operation
 
 const addOperation = () => {
+    $(("#operationInfo")).reset()
     const currentData = operations()
     currentData.push(infoForm())
-    $(("#operationInfo")).reset()
     setData("operations", currentData)
     iterateOperations(currentData)
     showBalance(currentData)
@@ -214,6 +214,7 @@ const editOperation = () => {
             return operation
         })
         setData('operations', currentData)
+        $(("#operationInfo")).reset()
         iterateOperations(currentData)
 }
 
@@ -509,6 +510,7 @@ const initialize = () => {
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
+        $(("#operationInfo")).reset()
         showScreens("Balance")
     })
 
