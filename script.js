@@ -228,129 +228,121 @@ const calculateTotalBalance = () =>  calculateBalance("Ganancia") - calculateBal
 
 // Filters
 
-const filterByType = () => {
-    const value = $("#type").value
-    if (value != "Todos") {
-        const currentData = getData("operations").filter(operation => operation.type === value)
-        iterateOperations(currentData)
-    } else {
-        iterateOperations(allOperation)
+const filterByType = (type , array) => {
+    return array.filter((operation) => operation.type === type)
+}
+
+const filterByCategory = (category , array) => {
+    return array.filter((operation) => operation.category === category)
+}
+
+const filterByDate = (date , array) => {
+    return array.filter((operation) => operation.date >= date)
+}
+
+// Sort 
+
+
+const sortBy = (value , array) => {
+    if (value === "A/Z") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                return 1;
+            }
+            if (a.description.toLowerCase() < b.description.toLowerCase()) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
+    } 
+    if (value === "Z/A") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.description.toLowerCase() < b.description.toLowerCase()) {
+                return 1;
+            }
+            if (a.description.toLowerCase() > b.description.toLowerCase()) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
+    }
+    if (value === "Mayor monto") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.amount < b.amount) {
+                return 1;
+            }
+            if (a.amount > b.amount) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
+    }
+    if (value === "Menor monto") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.amount > b.amount) {
+                return 1;
+            }
+            if (a.amount < b.amount) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
+    }
+    if (value === "Más reciente") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.date < b.date) {
+                return 1;
+            }
+            if (a.date > b.date) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
+    }
+    if (value === "Menos reciente") {
+        const sortedData = array.sort(function (a, b) {
+            if (a.date > b.date) {
+                return 1;
+            }
+            if (a.date < b.date) {
+                return -1;
+            }
+            return 0;
+        })
+        return sortedData
     }
 }
 
-const filterByCategory = () => {
-    const value = $("#categories").value
-    if (value != "Todas") {
-        const currentData = getData("operations").filter(operation => operation.category === value)
-        iterateOperations(currentData)
-    } else {
-        iterateOperations(allOperation)
-    }
-}
+//Applying filters
 
-const filterByDate = () => {
-    const value = $("#date").value
-    console.log(value)
-    const currentData = getData("operations").filter(operation => operation.date > value)
+const applyFilters = () => {
+    const type = $("#type").value
+    const category = `${$("#categories").value}`
+    const date = $("#date").value
+    const value = $("#sortBy").value
+
+    let currentData = getData("operations")
+
+    if (type !== "Todos") {
+        currentData = filterByType(type , currentData)
+    } 
+    
+    if (category !== "Todas") {
+        currentData = filterByCategory(category , currentData)
+    }
+
+    currentData = filterByDate(date , currentData)
+
+    currentData = sortBy(value , currentData)
+    
     iterateOperations(currentData)
 }
 
-// // Sort 
-
-
-const sortBy = () => {
-    const value = $("#sortBy").value
-    if (value === "A/Z") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.description.toLowerCase() > b.description.toLowerCase()) {
-                return 1;
-            }
-            if (a.description.toLowerCase() < b.description.toLowerCase()) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    } 
-    if (value === "Z/A") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.description.toLowerCase() < b.description.toLowerCase()) {
-                return 1;
-            }
-            if (a.description.toLowerCase() > b.description.toLowerCase()) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    }
-    if (value === "Mayor monto") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.amount < b.amount) {
-                return 1;
-            }
-            if (a.amount > b.amount) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    }
-    if (value === "Menor monto") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.amount > b.amount) {
-                return 1;
-            }
-            if (a.amount < b.amount) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    }
-    if (value === "Más reciente") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.date < b.date) {
-                return 1;
-            }
-            if (a.date > b.date) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    }
-    if (value === "Menos reciente") {
-        const operations = getData("operations")
-        console.log(operations)
-        const currentData = operations.sort(function (a, b) {
-            if (a.date > b.date) {
-                return 1;
-            }
-            if (a.date < b.date) {
-                return -1;
-            }
-            return 0;
-        })
-        setData("operations", currentData)
-        iterateOperations(currentData)
-    }
-}
 
 // -------------------- CATEGORIES FUNCTIONS --------------------//
 
@@ -532,20 +524,20 @@ const initialize = () => {
         window.location.reload()
     })
 
-    $("#type").addEventListener("click" , () => {
-        filterByType()
+    $("#type").addEventListener("change" , () => {
+        applyFilters()
     })
 
-    $("#categories").addEventListener("click" , () => {
-        filterByCategory()
+    $("#categories").addEventListener("change" , () => {
+        applyFilters()
     })
 
     $("#date").addEventListener("change" , () => {
-        filterByDate()
+        applyFilters()
     })
 
     $("#sortBy").addEventListener("change" , () => {
-        sortBy()
+        applyFilters()
     })
 
     //-----------------CATEGORIES SCREEN EVENTS-----------------//
