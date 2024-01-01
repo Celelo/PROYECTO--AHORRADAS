@@ -97,18 +97,34 @@ const iterateOperations = (operations) => {
     cleanContainer('#tableOperations')
     for (const operation of operations) {
         const categorySelected = getData("categories").find(category => category.id === operation.category)
-        $("#tableOperations").innerHTML += `
-        <tr class="border-b">
-                    <td class="p-4">${operation.description}</td>
-                    <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
-                    <td class="p-2">${operation.date}</td>
-                    <td class="p-2">${operation.amount}</td>
-                    <td class="p-2 flex flex-col space-y-2">
-                        <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
-                        <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
-                    </td>
-                </tr>
-    `
+        if (operation.type === "Ganancia" ) {
+            $("#tableOperations").innerHTML += `
+            <tr class="border-b">
+                        <td class="p-4">${operation.description}</td>
+                        <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
+                        <td class="p-2">${operation.date}</td>
+                        <td class="p-2"><span class ="bg-green-700 rounded-full text-white p-1 px-2">+$${operation.amount}</span></td>
+                        <td class="p-2 flex flex-col space-y-2">
+                            <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                            <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                        </td>
+                    </tr>
+            `
+        } else {
+            $("#tableOperations").innerHTML += `
+            <tr class="border-b">
+                        <td class="p-4">${operation.description}</td>
+                        <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
+                        <td class="p-2">${operation.date}</td>
+                        <td class="p-2 text-red-900"><span class ="bg-red-700 rounded-full text-white p-1 px-2">-$${operation.amount}</span></td>
+                        <td class="p-2 flex flex-col space-y-2">
+                            <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                            <button class="delete-category text-white h bg-red-700 hover:bg-red-900 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                        </td>
+                    </tr>
+            `
+        }
+        
     }
 }
 
@@ -215,8 +231,8 @@ const deleteDate = (operationId) => {
 }
 // Balance
 
-const calculateBalance = (operationType) => {
-    const currentData = getData("operations").filter(operation => operation.type === operationType)
+const calculateBalance = (operationType , operations) => {
+    const currentData = operations.filter(operation => operation.type === operationType)
     let acc = 0
     for (const operation of currentData) {
         acc += operation.amount
@@ -224,21 +240,21 @@ const calculateBalance = (operationType) => {
     return acc
 }
 
-const calculateTotalBalance = () =>  calculateBalance("Ganancia") - calculateBalance("Gasto")
+const calculateTotalBalance = (operations) =>  calculateBalance("Ganancia" , operations) - calculateBalance("Gasto" , operations)
+
+const showBalance = (operations) => {
+    $("#incomeBalance").innerHTML = `+$${calculateBalance("Ganancia" , operations)}`
+    $("#expensesBalance").innerHTML = `-$${calculateBalance("Gasto" , operations)}`
+    $("#totalBalance").innerHTML = `$${calculateTotalBalance(operations)}`
+}
 
 // Filters
 
-const filterByType = (type , array) => {
-    return array.filter((operation) => operation.type === type)
-}
+const filterByType = (type , array) => array.filter((operation) => operation.type === type)
 
-const filterByCategory = (category , array) => {
-    return array.filter((operation) => operation.category === category)
-}
+const filterByCategory = (category , array) => array.filter((operation) => operation.category === category)
 
-const filterByDate = (date , array) => {
-    return array.filter((operation) => operation.date >= date)
-}
+const filterByDate = (date , array) => array.filter((operation) => operation.date >= date)
 
 // Sort 
 
@@ -341,6 +357,8 @@ const applyFilters = () => {
     currentData = sortBy(value , currentData)
     
     iterateOperations(currentData)
+    
+    showBalance(currentData)
 }
 
 
@@ -425,11 +443,7 @@ const initialize = () => {
     renderCategoriesOptions(allCategories)
     renderInputCategoriesOptions(allCategories)
 
-    $("#incomeBalance").innerHTML = `+$${calculateBalance("Ganancia")}`
-
-    $("#expensesBalance").innerHTML = `-$${calculateBalance("Gasto")}`
-
-    $("#totalBalance").innerHTML = `$${calculateTotalBalance()}`
+    showBalance(allOperation)
 
     //----------------- LOGO EVENTS-----------------//
 
