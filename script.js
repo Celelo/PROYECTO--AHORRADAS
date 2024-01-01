@@ -48,6 +48,9 @@ const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const getData = (key) => JSON.parse(localStorage.getItem(key))
 
+const operations = () => getData("operations")
+const categories = () => getData("categories")
+
 //Default info
 
 const defaultCategories = [
@@ -170,7 +173,7 @@ const renderInputCategoriesOptions = (categories) => {
 // -------------------- OPERATIONS FUNCTIONS --------------------//
 
 const getOperationById = (id) => {
-    const operations = getData('operations');
+    const operations = operations();
     return operations.find(operation => operation.id === id) || null;
 };
 
@@ -190,13 +193,25 @@ const infoForm = () => {
 // Add operation
 
 const addOperation = () => {
-    const currentData = getData("operations")
+    const currentData = operations()
     currentData.push(infoForm())
     setData("operations", currentData)
     iterateOperations(currentData)
 }
 
 // Edit operation 
+
+const editOperation = () => {
+    const operationId = $('#addEditButtonNo').getAttribute('data-id')
+        const currentData = getData('operations').map(operation => {
+            if (operation.id === operationId) {
+                return infoForm()
+            }
+            return operation
+        })
+        setData('operations', currentData)
+        iterateOperations(currentData)
+}
 
 const showFormEdit = (operationId) => {
     add(['.balance-screen', '#addButtonNo'])
@@ -374,7 +389,7 @@ const createCategory = () => {
 }
 
 const addCategory = () => {
-    const currentData = getData("categories")
+    const currentData = categories()
     currentData.push(createCategory())
     setData("categories", currentData)
     renderCategories(currentData)
@@ -449,7 +464,6 @@ const initialize = () => {
 
     $('#homeButton').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
 
     //----------------- MENU EVENTS-----------------//
@@ -458,16 +472,12 @@ const initialize = () => {
     $('#burger-btn').addEventListener('click', () => {
         $('#burgerMenu').classList.toggle('hidden');
     });
-
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
-
     $('#showCategories').addEventListener('click', () => {
         showScreens("Categories")
     }) 
-
     $('#showReports').addEventListener('click', () => {
         showScreens("Reports")
     })
@@ -477,13 +487,10 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
-
     $('#show-Categories').addEventListener('click', () => {
         showScreens("Categories")
     }) 
-
     $('#show-Reports').addEventListener('click', () => {
         showScreens("Reports")
     })
@@ -498,8 +505,7 @@ const initialize = () => {
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
-        remove(['.balance-screen'])
-        add(['.new-operarion-screen'])
+        showScreens("Balance")
     })
 
     // ocultar filtros
@@ -519,37 +525,27 @@ const initialize = () => {
     $('#addButtonNo').addEventListener('click', (e) => {
         e.preventDefault()
         addOperation()
-        window.location.reload()
+        showScreens("Balance")
     })
 
     // editar operacion
-    $('#addEditButtonNo').addEventListener('click', () => {
-        const operationId = $('#addEditButtonNo').getAttribute('data-id')
-        // hacemos un map que nos trae un array modificado
-        const currentData = getData('operations').map(operation => {
-            // operation.id es el id de la operacion que estoy recorriendo, opId es el id del atributo del boton
-            if (operation.id === operationId) {
-                return infoForm()
-            }
-            return operation
-        })
-        // le pasamos al localStorage el array modificado
-        setData('operations', currentData)
-        window.location.reload()
+    $('#addEditButtonNo').addEventListener('click', (e) => {
+        e.preventDefault()
+        editOperation()
+        showScreens("Balance")
     })
+
+    //Filters
 
     $("#type").addEventListener("change" , () => {
         applyFilters()
     })
-
     $("#categories").addEventListener("change" , () => {
         applyFilters()
     })
-
     $("#date").addEventListener("change" , () => {
         applyFilters()
     })
-
     $("#sortBy").addEventListener("change" , () => {
         applyFilters()
     })
@@ -572,7 +568,6 @@ const initialize = () => {
         showScreens("Categories")
         
     })
-
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
     })
