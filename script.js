@@ -87,10 +87,6 @@ const allOperation = getData('operations') || []
 
 const allCategories = getData("categories") || defaultCategories
 
-const askForData = () => {
-    getData()
-
-}
 
 // -------------------- RENDERS --------------------//
 
@@ -98,37 +94,43 @@ const askForData = () => {
 
 const iterateOperations = (operations) => {
     cleanContainer('#tableOperations')
-    for (const operation of operations) {
-        const categorySelected = getData("categories").find(category => category.id === operation.category)
-        if (operation.type === "Ganancia" ) {
-            $("#tableOperations").innerHTML += `
-            <tr class="border-b">
-                        <td class="p-4">${operation.description}</td>
-                        <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
-                        <td class="p-2">${operation.date}</td>
-                        <td class="p-2"><span class ="bg-green-700 rounded-full text-white p-1 px-2">+$${operation.amount}</span></td>
-                        <td class="p-2 flex flex-col space-y-2">
-                            <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
-                            <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
-                        </td>
-                    </tr>
-            `
-        } else {
-            $("#tableOperations").innerHTML += `
-            <tr class="border-b">
-                        <td class="p-4">${operation.description}</td>
-                        <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
-                        <td class="p-2">${operation.date}</td>
-                        <td class="p-2 text-red-900"><span class ="bg-red-700 rounded-full text-white p-1 px-2">-$${operation.amount}</span></td>
-                        <td class="p-2 flex flex-col space-y-2">
-                            <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
-                            <button class="delete-category text-white h bg-red-700 hover:bg-red-900 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
-                        </td>
-                    </tr>
-            `
-        }
-        
-    }
+    if (operations.length) {
+        add(["#noOperations"])
+        remove(["#haveOperations"])
+        for (const operation of operations) {
+            const categorySelected = getData("categories").find(category => category.id === operation.category)
+            if (operation.type === "Ganancia" ) {
+                $("#tableOperations").innerHTML += `
+                <tr class="border-b">
+                            <td class="p-4">${operation.description}</td>
+                            <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
+                            <td class="p-2">${operation.date}</td>
+                            <td class="p-2"><span class ="bg-green-700 rounded-full text-white p-1 px-2">+$${operation.amount}</span></td>
+                            <td class="p-2 flex flex-col space-y-2">
+                                <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                                <button class="delete-category text-white h bg-red-700 hover:bg-red-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                            </td>
+                        </tr>
+                `
+            } else {
+                $("#tableOperations").innerHTML += `
+                <tr class="border-b">
+                            <td class="p-4">${operation.description}</td>
+                            <td class="mt-6 ml-5 py-1 px-2 inline-block bg-[#886a8e]  rounded-full">${categorySelected.name}</td>
+                            <td class="p-2">${operation.date}</td>
+                            <td class="p-2 text-red-900"><span class ="bg-red-700 rounded-full text-white p-1 px-2">-$${operation.amount}</span></td>
+                            <td class="p-2 flex flex-col space-y-2">
+                                <button class="edit-category bg-green-700 hover:bg-green-500 border-white rounded-[25%] w-[30%] self-center" onclick= "showFormEdit('${operation.id}')"><i class="fa-solid fa-pen-to-square p-1.5"></i></button>
+                                <button class="delete-category text-white h bg-red-700 hover:bg-red-900 border-white rounded-[25%] w-[30%] self-center" onclick= "showDeleteOperation('${operation.id}')"><i class="fa-solid fa-trash-can p-1.5"></i></button>
+                            </td>
+                        </tr>
+                `
+            }
+        } 
+    } else {
+        add(["#haveOperations"])
+        remove(["#noOperations"])
+    } 
 }
 
 // Categories
@@ -195,8 +197,10 @@ const infoForm = () => {
 const addOperation = () => {
     const currentData = operations()
     currentData.push(infoForm())
+    $(("#operationInfo")).reset()
     setData("operations", currentData)
     iterateOperations(currentData)
+    showBalance(currentData)
 }
 
 // Edit operation 
@@ -230,7 +234,7 @@ const showFormEdit = (operationId) => {
 // Delete operation 
 
 const showDeleteOperation = (operationId) => {
-    remove(['#deleteWindow'])
+    remove(['#containerDeleteWindow'])
     $('#deleteButtonNo').setAttribute('data-id', operationId)
     $('#deleteButtonNo').addEventListener('click', () => {
         const operationId = $('#deleteButtonNo').getAttribute('data-id')
@@ -395,7 +399,7 @@ const addCategory = () => {
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
     renderInputCategoriesOptions(currentData)
-    $("#categoriesInput").reset() 
+    $("#categoriesInputForm").reset() 
 }
 
 // Edit Categories
@@ -505,6 +509,10 @@ const initialize = () => {
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
+        showScreens("Balance")
+    })
+
+    $('#cancelDeleteOperation').addEventListener('click', () => {
         showScreens("Balance")
     })
 

@@ -72,7 +72,7 @@
 
 
         <!-- Navbar pantallas chicas -->
-        <div  id="burgerMenu" class="hidden lg:hidden bg-[#b899bc] w-screen text-white" >
+        <div  id="burgerMenu" class="hidden md:hidden lg:hidden bg-[#b899bc] w-screen text-white">
             <ul>
 
                 <li id="show-Balance">
@@ -98,8 +98,9 @@
 
             </ul>
         </div>
+
+
         <!-- INICIO PANTALLA BALANCE -->
-        
 
 
         <section class=" flex justify-center pt-20 px-6 balance-screen screen" id="containerBalance">
@@ -222,7 +223,7 @@
                 </div>
 
                 <!-- seccion de operaciones a agregar -->
-                <div class="pt-6 pl-3">
+                <div class="pt-6 pl-3 hidden" id="haveOperations">
 
                     <!-- agregar operaciones -->
                     <div class="max-w-screen-md mx-auto overflow-y-auto">
@@ -243,7 +244,7 @@
                 </div>
 
 
-                <div class="hidden">
+                <div class="pb-7" id="noOperations">
                     <figure class="flex justify-center pt-14">
                         <img class="w-[70%]" src="imagenes/img operaciones.png"
                             alt="imagen de dos personas agarrando una moneda">
@@ -261,7 +262,7 @@
 
 
             </div>
-            <div class="hidden fixed inset-0 overflow-y-auto" id="deleteWindow">
+            <div class="hidden fixed inset-0 overflow-y-auto screen" id="containerDeleteWindow">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
                     <div class="fixed inset-0 transition-opacity">
                         <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -273,6 +274,10 @@
                             <p class="text-2xl">
                                 ¿Estás seguro que quieres eliminar esta operación?
                             </p>
+                            <button
+                                class="text-xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100 p-2 m-2" id="cancelDeleteOperation">
+                                Cancelar
+                            </button>
                             <button
                                 class="p-2 text-xl bg-red-600 border-2 border-white rounded-full text-white hover:border-transparent hover:bg-red-700 transition duration-300 ease-in-out" id="deleteButtonNo">
                                 Eliminar
@@ -294,12 +299,11 @@
                     Nueva operacion
                 </h2>
 
-                <form onsubmit="return false">
+                <form onsubmit="return false" id="operationInfo">
 
                     <div class="flex flex-col pb-3">
                         <label for="descriptionNo" class="text-xl pb-2">Descripción</label>
-                        <input class="rounded-[4px] h-9 text-black" type="text" id="descriptionNo" name="description"
-                            required>
+                        <input class="rounded-[4px] h-9 text-black" type="text" id="descriptionNo" name="description" required>
                     </div>
 
                     <div class="flex flex-col pb-3">
@@ -358,7 +362,7 @@
                 <label for="categoriesInput" class="text-xl">Nombre</label>
                 <div class="flex flex-row space-x-4">
                     <div class="w-[85%]">
-                        <input id="categoriesInput" type="text" class="w-[100%] h-[100%] border-white rounded-[5px] text-black pl-2">
+                        <form onsubmit="return false" id="categoriesInputForm" class="h-[100%]"><input  type="text" class="w-[100%] h-[100%] border-white rounded-[5px] text-black pl-2" id="categoriesInput" required></form>
                     </div>
                     <div>
                         <button id="addCategoryButton"
