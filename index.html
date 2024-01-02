@@ -72,7 +72,7 @@
 
 
         <!-- Navbar pantallas chicas -->
-        <div  id="burgerMenu" class="hidden lg:hidden bg-[#b899bc] w-screen text-white" >
+        <div  id="burgerMenu" class="hidden md:hidden lg:hidden bg-[#b899bc] w-screen text-white">
             <ul>
 
                 <li id="show-Balance">
@@ -98,8 +98,9 @@
 
             </ul>
         </div>
+
+
         <!-- INICIO PANTALLA BALANCE -->
-        
 
 
         <section class=" flex justify-center pt-20 px-6 balance-screen screen" id="containerBalance">
@@ -153,12 +154,12 @@
                                 <i class="fa-solid fa-arrow-up-wide-short text-2xl px-2"></i>
                             </div>
                             <button
-                                class="p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                                class="p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                                 id="hiddenFilters">
                                 Ocultar filtros
                             </button>
                             <button
-                                class="hidden p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                                class="hidden p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                                 id="haddenFilters">
                                 Mostrar filtros
                             </button>
@@ -208,21 +209,21 @@
 
             <!-- operaciones -->
             <div
-                class=" w-[50%] h-[699px] bg-[#a183a2] border-2 border-white rounded-[5px] px-6 text-white shadow-2xl operations-section">
+                class=" w-[50%] bg-[#a183a2] border-2 border-white rounded-[5px] px-6 text-white shadow-2xl operations-section pb-1 mb-9">
 
                 <div class="flex justify-between aling-center pt-4 operations-btn-title">
                     <h2 class="font-mono text-4xl pb-4">
                         Operaciones
                     </h2>
                     <button
-                        class=" h-12 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                        class=" h-12 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                         id="btnNewOperation">
                         + Nueva operacion
                     </button>
                 </div>
 
                 <!-- seccion de operaciones a agregar -->
-                <div class="pt-6 pl-3">
+                <div class="pt-6 pl-3 hidden" id="haveOperations">
 
                     <!-- agregar operaciones -->
                     <div class="max-w-screen-md mx-auto overflow-y-auto">
@@ -243,7 +244,7 @@
                 </div>
 
 
-                <div class="hidden">
+                <div class="pb-7" id="noOperations">
                     <figure class="flex justify-center pt-14">
                         <img class="w-[70%]" src="imagenes/img operaciones.png"
                             alt="imagen de dos personas agarrando una moneda">
@@ -261,7 +262,7 @@
 
 
             </div>
-            <div class="hidden fixed inset-0 overflow-y-auto" id="deleteWindow">
+            <div class="hidden fixed inset-0 overflow-y-auto screen" id="containerDeleteWindow">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
                     <div class="fixed inset-0 transition-opacity">
                         <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -273,6 +274,10 @@
                             <p class="text-2xl">
                                 ¿Estás seguro que quieres eliminar esta operación?
                             </p>
+                            <button
+                                class="text-xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100 p-2 m-2" id="cancelDeleteOperation">
+                                Cancelar
+                            </button>
                             <button
                                 class="p-2 text-xl bg-red-600 border-2 border-white rounded-full text-white hover:border-transparent hover:bg-red-700 transition duration-300 ease-in-out" id="deleteButtonNo">
                                 Eliminar
@@ -289,28 +294,28 @@
         <!-- INICIO PANTALLA NUEVA OPERACION -->
         <section class="hidden flex justify-center py-14 px-6 new-operarion-screen screen" id="containerNewOperation">
             <div
-                class="mb-9 w-[60%] h-[600px] bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl">
+                class="mb-9 w-[60%] bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl py-6">
                 <h2 class="font-mono text-4xl py-4">
                     Nueva operacion
                 </h2>
 
-                <form onsubmit="return false">
+                <form id="operationInfo">
 
                     <div class="flex flex-col pb-3">
                         <label for="descriptionNo" class="text-xl pb-2">Descripción</label>
-                        <input class="rounded-[4px] h-9 text-black" type="text" id="descriptionNo" name="description"
-                            required>
+                        <input class="rounded-[4px] h-9 text-black" type="text" id="descriptionNo" name="description" required>
+                        <p class="text-red-600 hidden" id="errorDescription">Este campo es obligatorio</p>
                     </div>
 
                     <div class="flex flex-col pb-3">
                         <label for="amountNo"  class="text-xl pb-2">Monto</label>
                         <input class="rounded-[4px] h-9 text-black" placeholder='0' type="number" id="amountNo">
+                        <p class="text-red-600 hidden" id="errorAmount">Este campo es obligatorio</p>
                     </div>
 
                     <div class="flex flex-col pb-3">
                         <label for="typeSelect" class="text-xl pb-2">Tipo</label>
                         <select class="rounded-[4px] h-9 text-black" id="typeSelect" required>
-                            <option value="Todos">Todos</option>
                             <option value="Gasto">Gasto</option>
                             <option value="Ganancia">Ganancia</option>
                         </select>
@@ -325,6 +330,7 @@
                     <div class="flex flex-col pb-3">
                         <label for="inputDate" class="text-xl pb-2">Fecha</label>
                         <input class="rounded-[4px] h-9 text-black" type="date" id="inputDate" value="">
+                        <p class="text-red-600 hidden" id="errorDate">No podés agregar movimientos que aún no ocurrieron</p>
                     </div>
 
                     <div class="text-right pt-6 pr-4">
@@ -334,12 +340,12 @@
                             Cancelar
                         </button>
                         <button
-                            class="p-1 px-4 text-1xl bg-[#d9c0d8] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                            class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                             id="addButtonNo">
                             Agregar
                         </button>
                         <button
-                            class="hidden p-1 px-4 text-1xl bg-[#d9c0d8] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                            class="hidden p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                             id="addEditButtonNo">
                             Agregar editado
                         </button>
@@ -359,7 +365,10 @@
                 <label for="categoriesInput" class="text-xl">Nombre</label>
                 <div class="flex flex-row space-x-4">
                     <div class="w-[85%]">
-                        <input id="categoriesInput" type="text" class="w-[100%] h-[100%] border-white rounded-[5px] text-black pl-2">
+                        <form id="categoriesInputForm" class="">
+                            <input  type="text" class="w-[100%] h-10 border-white rounded-[5px] text-black pl-2" id="categoriesInput">
+                            <p class="text-red-600 hidden" id="errorNewCategory">Este campo es obligatorio</p>
+                        </form>
                     </div>
                     <div>
                         <button id="addCategoryButton"
@@ -388,6 +397,7 @@
                     <h2 class="text-4xl my-4">Editar categoría</h2>
                     <label for="editCategoryName" class="text-xl">Nombre</label>
                     <input type="text" id="editCategoryName" class="w-[100%] h-7 border-white rounded-[5px] mt-[2%] text-black pl-2">
+                    <p class="text-red-600 hidden" id="errorEditCategory">Este campo es obligatorio</p>
                 </div>
                 <div class="flex justify-end mt-7 md:mt-14">
                     <button id="cancelButton"
@@ -418,7 +428,7 @@
             <div
                 class="w-[100%] pb-3 px-3 bg-[#a183a2] border-2 border-white rounded-[5px] text-white shadow-2xl md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] ">
                 <h2 class="text-4xl my-4">Reportes</h2>
-                <div id="noReports" class="hidden flex flex-col text-center mt-8">
+                <div id="noReports" class=" flex flex-col text-center mt-8">
                     <figure class="flex justify-center self-center">
                         <img src="./imagenes/noreports.svg" alt="no reports" class="w-[60%]">
                     </figure>
@@ -428,26 +438,26 @@
 
                 <!-- Resumen -->
 
-                <div id="withReports" class="flex flex-col">
+                <div id="withReports" class=" hidden flex flex-col p-3">
                     <section id="summary">
-                        <h3 class="text-[1.2rem]">Resumen</h3>
+                        <h3 class="text-[1.3rem] pb-6">Resumen</h3>
 
                         <!-- Categoría con mayor ganancia -->
-
+                        
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor ganancia</div>
-                            <div class="col-start-4 col-span-1">
+                            <div class="col-start-4 col-span-1 pr-20 pb-3">
                                 <span id="tagCategory"
                                     class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
                             </div>
-                            <div id="amountCategory" class="col-start-5 col-span-1 text-green-600"></div>
+                            <div id="amountCategory" class="col-start-5 col-span-1 text-green-400"></div>
                         </div>
 
                         <!-- Categoría con mayor gasto -->
 
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor gasto</div>
-                            <div class="col-start-4 col-span-1">
+                            <div class="col-start-4 col-span-1 pr-20 pb-3">
                                 <span id="expenseCategory"
                                     class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
                             </div>
@@ -458,7 +468,7 @@
 
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor balance</div>
-                            <div class="col-start-4 col-span-1">
+                            <div class="col-start-4 col-span-1 pr-20 pb-3">
                                 <span id="balanceCategory"
                                     class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
                             </div>
@@ -469,17 +479,17 @@
 
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-start-1 col-span-3 text-[0.95rem]">Mes con mayor ganancia</div>
-                            <div class="col-start-4 col-span-1">
+                            <div class="col-start-4 col-span-1 pr-24 pb-3">
                                 <span id="monthCategoryProfit"></span>
                             </div>
-                            <div id="monthAmountProfit" class="col-start-5 col-span-1 text-green-600"></div>
+                            <div id="monthAmountProfit" class="col-start-5 col-span-1 text-green-400"></div>
                         </div>
 
                         <!-- Mes con mayor gasto -->
 
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-start-1 col-span-3 text-[0.95rem]">Mes con mayor gasto</div>
-                            <div class="col-start-4 col-span-1">
+                            <div class="col-start-4 col-span-1 pr-24 pb-3">
                                 <span id="monthCategoryExpense"></span>
                             </div>
                             <div id="monthAmountExpense" class="col-start-5 col-span-1 text-red-600"></div>
@@ -489,39 +499,46 @@
 
                     <!-- Totales por categoría -->
 
-                    <section>
-                        <h3 class="text-[1.2rem]">Totales por categoría</h3>
-                        <table id="monthSummaryTable" class="table-auto">
-
-                            <thead class="text-left text-[0.90rem]">
-                                <th class="pr-2">Categorías</th>
-                                <th class="pr-2">Ganancias</th>
-                                <th class="pr-2">Gastos</th>
-                                <th class="pr-2">Balance</th>
+                    <section class="overflow-x-auto">
+                        <h3 class="text-[1.2rem] py-6">Totales por categoría</h3>
+                        <table id="monthSummaryTable" class="min-w-full table-auto">
+                    
+                            <thead class="text-center text-[0.90rem]">
+                                <tr>
+                                    <th class="pr-36 sm:flex-none sm:w-1/4">Categorías</th>
+                                <th class="pr-36 sm:flex-none sm:w-1/4">Ganancias</th>
+                                <th class="pr-36 sm:flex-none sm:w-1/4">Gastos</th>
+                                <th class="pr-2 sm:flex-none sm:w-1/4">Balance</th>
+                                </tr>
                             </thead>
-
-                            <tbody></tbody>
-
+                    
+                            <tbody id="totalsByCategorie"></tbody>
+                    
                         </table>
                     </section>
+                    
 
                     <!-- Totales por mes -->
 
-                    <section>
-                        <h3 class="text-[1.2rem]">Totales por mes</h3>
-                        <table id="monthSummaryTable" class="table-auto">
+                    <section class="overflow-x-auto">
+                        <h3 class="text-[1.2rem] py-6">Totales por mes</h3>
+                        <table id="monthTotalsTable" class="min-w-full table-auto">
 
-                            <thead class="text-left text-[0.90rem]">
-                                <th class="pr-2">Categorías</th>
-                                <th class="pr-2">Ganancias</th>
-                                <th class="pr-2">Gastos</th>
-                                <th class="pr-2">Balance</th>
+                            <thead id="monthTotals" class="text-center text-[0.90rem]">
+                                <tr>
+                                    <th class="pr-36 sm:flex-none sm:w-1/4">Mes</th>
+                                <th class="pr-36 sm:flex-none sm:w-1/4">Ganancias</th>
+                                <th class="pr-36 sm:flex-none sm:w-1/4">Gastos</th>
+                                <th class="pr-2 sm:flex-none sm:w-1/4">Balance</th>
+                                </tr>
                             </thead>
-
-                            <tbody></tbody>
+                    
+                            <tbody id="monthTotals"></tbody>
 
                         </table>
-                    </section>
+                    </section> 
+                    
+                    
                 </div>
             </div>
         </section>
