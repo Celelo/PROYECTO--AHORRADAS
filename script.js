@@ -207,7 +207,7 @@ const addOperation = () => {
     setData("operations", currentData)
     iterateOperations(currentData)
     showBalance(currentData)
-    $(("#operationInfo")).reset()
+
 }
 
 // Edit operation 
@@ -406,7 +406,8 @@ const addCategory = () => {
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
     renderInputCategoriesOptions(currentData)
-    $("#categoriesInputForm").reset() 
+    $("#categoriesInputForm").reset()
+    $("#addCategoryButton").setAttribute("disabled" , true)
 }
 
 // Edit Categories
@@ -437,6 +438,7 @@ const editCategory = () => {
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
     renderInputCategoriesOptions(currentData)
+    $("#editCategoryButton").setAttribute("disabled" , true)
 }
 
 //Delete category
@@ -506,6 +508,7 @@ const validateOperationsForm = (field) => {
 }
 
 const validateCategoriesForm = (input , message , button) => {
+
     const description = $(input).value.trim()
 
     const validationsPassed = description !== "" 
@@ -581,7 +584,7 @@ const initialize = () => {
     //-----------------OPERATIONS SCREEN EVENTS-----------------//
 
 
-    $('#btnNewOperation').addEventListener('click', (e) => {
+    $('#btnNewOperation').addEventListener('click', () => {
         showScreens('NewOperation')
         remove(["#addButtonNo"])
         add(["#addEditButtonNo"])
@@ -613,14 +616,12 @@ const initialize = () => {
     $('#addButtonNo').addEventListener('click', () => {
         addOperation()
         showScreens("Balance")
-        $(("#operationInfo")).reset()
     })
 
     // editar operacion
     $('#addEditButtonNo').addEventListener('click', () => {
         editOperation()
         showScreens("Balance")
-        $(("#operationInfo")).reset()
     })
 
     //Filters
@@ -663,12 +664,10 @@ const initialize = () => {
 
     //Operations
 
-    $("#descriptionNo").addEventListener("blur" , (e) => {
-        e.preventDefault()
+    $("#descriptionNo").addEventListener("blur" , () => {
         validateOperationsForm("description")
     })
-    $("#amountNo").addEventListener("blur" , (e) => {
-        e.preventDefault()
+    $("#amountNo").addEventListener("blur" , () => {
         validateOperationsForm("amount")
     })
     $("#inputDate").addEventListener("input" , () => {
