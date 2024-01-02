@@ -95,11 +95,6 @@ const setDate = () => {
         date.valueAsDate = new Date()
     }
 }
-
-const today = () => {
-    setDate()
-    return $("#inputDate").valueAsDate
-}
 // -------------------- RENDERS --------------------//
 
 // Operations 
@@ -369,6 +364,7 @@ const sortBy = (value , array) => {
 const applyFilters = () => {
     const type = $("#type").value
     const category = `${$("#categories").value}`
+    
     const date = $("#date").value
     const value = $("#sortBy").value
 
@@ -466,7 +462,7 @@ const validateOperationsForm = (field) => {
     const amount = $("#amountNo").valueAsNumber
     const date = $("#inputDate").valueAsDate
 
-    const validationsPassed = description!== "" && amount && date < today()
+    const validationsPassed = description!== "" && amount && date
 
     switch (field) {
         case "description":
@@ -488,12 +484,12 @@ const validateOperationsForm = (field) => {
             }
             break
         case "date":
-            if (date > today()) {
+            if (!date) {
                 remove(["#errorDate"])
-                $("#inputDate").classList.add("invalid:border-red-500")
+                $("#inputDate").classList.add("required:border-red-500")
             } else {
                 add(["#errorDate"])
-                $("#inputDate").classList.remove("invalid:border-red-500")
+                $("#inputDate").classList.remove("required:border-red-500")
             }
             break
         default: 
@@ -505,10 +501,9 @@ const validateOperationsForm = (field) => {
         $("#addEditButtonNo").removeAttribute("disabled")
     } else {
         $("#addButtonNo").setAttribute("disabled" , true)
+        $("#addEditButtonNo").setAttribute("disabled" , true)
     }
 }
-
-
 
 const validateCategoriesForm = (input , message , button) => {
     const description = $(input).value.trim()
@@ -586,14 +581,15 @@ const initialize = () => {
     //-----------------OPERATIONS SCREEN EVENTS-----------------//
 
 
-    $('#btnNewOperation').addEventListener('click', () => {
+    $('#btnNewOperation').addEventListener('click', (e) => {
         showScreens('NewOperation')
+        remove(["#addButtonNo"])
+        add(["#addEditButtonNo"])
     })
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
         showScreens("Balance")
-        $(("#operationInfo")).reset()
     })
 
     $('#cancelDeleteOperation').addEventListener('click', () => {
@@ -614,16 +610,14 @@ const initialize = () => {
     })
 
 
-    $('#addButtonNo').addEventListener('click', (e) => {
-        e.preventDefault()
+    $('#addButtonNo').addEventListener('click', () => {
         addOperation()
         showScreens("Balance")
         $(("#operationInfo")).reset()
     })
 
     // editar operacion
-    $('#addEditButtonNo').addEventListener('click', (e) => {
-        e.preventDefault()
+    $('#addEditButtonNo').addEventListener('click', () => {
         editOperation()
         showScreens("Balance")
         $(("#operationInfo")).reset()
@@ -667,15 +661,21 @@ const initialize = () => {
     
     //---- Validation Events -----//
 
-    $("#descriptionNo").addEventListener("blur" , () => {
+    //Operations
+
+    $("#descriptionNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
         validateOperationsForm("description")
     })
-    $("#amountNo").addEventListener("blur" , () => {
+    $("#amountNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
         validateOperationsForm("amount")
     })
-    $("#inputDate").addEventListener("click" , () => {
+    $("#inputDate").addEventListener("input" , () => {
         validateOperationsForm("date")
     })
+
+    // Categories
     $("#categoriesInput").addEventListener("input" , () => {
         validateCategoriesForm("#categoriesInput" , "#errorNewCategory" , "#addCategoryButton")
     })
@@ -688,23 +688,31 @@ const initialize = () => {
 window.addEventListener('load', initialize())
 
 
-// mostar mensaje cuando no hay operaciones
+
+
+
+
+
+
+//---- Message no operations -----//
+
 const messageWithoutOperations = () => {
     const updatedData = getData('operations') || [];
 
     console.log(updatedData);
 
     if (updatedData.length > 0) {
-        add(['.message-not-operation','#noReports'])
+        add(['.message-not-operation','#withReports'])
     } else {
-        remove(['.message-not-operation','#withReports'])
+        remove(['.message-not-operation','#noReports'])
     }
 };
 
 
+// -------------------- REPORTS FUNCTIONS --------------------//
 
 
-// funcion para obtener categorias y montos de operaciones almacenadas en el localStorage
+
 const getCategoriesAndAmounts = () => {
     const updatedtData = getData('operations') || [];
     const result = {};
@@ -712,7 +720,7 @@ const getCategoriesAndAmounts = () => {
     for (const operation of updatedtData) {
         const { category, amount } = operation;
 
-        // parseFloat : se utiliza para parsear una cadena de texto y convertirla a un número de punto flotante.Si la cadena contiene caracteres que no forman parte de un número válido, parseFloat detendrá el análisis y devolverá el valor numérico hasta ese punto
+
         if (category in result) {
             result[category] += parseFloat(amount);
         } else {
@@ -723,25 +731,23 @@ const getCategoriesAndAmounts = () => {
 };
 
 
-//si hay mas de dos elementos (operaciones) en el localStorage me devuelve true, si no , false. si hay mas de dos operaciones recien ahi se va aejecutar getCategoryWithMaxProfit
+
 const greaterThanTwoOperations = () => {
     return (getData('operations') || []).length > 2;
 };
 
 
-// CATEGORIA CON MAYOR GANANCIA
+
+//---- CATEGORY WITH THE HIGHEST PROFIT -----//
+
 const getCategoryMax = () => {
     if (!greaterThanTwoOperations()) return null;
-
-    // reutilizo la funcion getCategoriesAndAmounts() que me trae la categoria y el monto
     const categoriesAndAmounts = getCategoriesAndAmounts();
-    console.log(categoriesAndAmounts)
 
     let seniorCategory = null
     let seniorAmount = 0;
 
     for (const category in categoriesAndAmounts) {
-        // guardamos en una constante los montos obtenidos del localStorage
         const localAmounts = categoriesAndAmounts[category];
         console.log(localAmounts)
 
@@ -763,12 +769,12 @@ const categoryMajorProfit = getCategoryMax();
 if (categoryMajorProfit) {
     $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
     $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
-} else {
-    console.log("No hay suficientes operaciones para calcular la categoria con mayor ganancia.");
 }
 
 
-// Obtener categorías y montos de gasto
+
+//---- CATEGORY WITH HIGHEST EXPENSES-----//
+
 const getCategoriesAndExpenseAmounts = () => {
     const operations = getData('operations') || [];
     const result = {};
@@ -788,7 +794,6 @@ const getCategoriesAndExpenseAmounts = () => {
     return result;
 };
 
-// CATEGORIA CON MAYOR GASTO
 const getCategoryMaxExpense = () => {
     if (!greaterThanTwoOperations()) return null;
 
@@ -814,18 +819,16 @@ const getCategoryMaxExpense = () => {
 
 const categoryMaxExpense = getCategoryMaxExpense();
 
-if (categoryMajorProfit && categoryMajorProfit.category) {
-    $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
-    $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
-} else {
-    console.log("No hay suficientes operaciones para calcular la categoria con mayor ganancia.");
+if (categoryMaxExpense && categoryMaxExpense.category) {
+    $('#expenseCategory').textContent = `${categoryMaxExpense.category}`;
+    $('#quantityMinorCategory').textContent = `-$ ${categoryMaxExpense.amount}`;
 }
 
 
-//  CATEGORIA CON MAYOR BALANCE
 
 
-// Obtener categorías y montos totales (considerando ganancias y gastos)
+//---- CATEGORY WITH HIGHEST BALANCE-----//
+
 const getCategoriesAndTotalAmounts = () => {
     const operations = getData('operations') || [];
     const result = {};
@@ -843,7 +846,7 @@ const getCategoriesAndTotalAmounts = () => {
     return result;
 };
 
-// CATEGORIA CON MAYOR BALANCE
+
 const getCategoryMaxBalance = () => {
     if (!greaterThanTwoOperations()) return null;
 
@@ -869,20 +872,15 @@ const getCategoryMaxBalance = () => {
 
 const categoryMaxBalance = getCategoryMaxBalance();
 
-if (categoryMajorProfit && categoryMajorProfit.category) {
-    $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
-    $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
-} else {
-    console.log("No hay suficientes operaciones para calcular la categoría con mayor ganancia.");
+if (categoryMaxBalance && categoryMaxBalance.category) {
+    $('#balanceCategory').textContent = `${categoryMaxBalance.category}`;
+    $('#balanceAmount').textContent = `+$ ${categoryMaxBalance.amount}`;
 }
 
 
 
+//---- MONTH WITH HIGHEST PROFIT-----//
 
-
-// MES CION MAYOR GANANCIA
-
-// funcion que me trae las fechas y monto
 const getDatesAndAmounts = (operationType) => {
     const operations = getData('operations') || [];
     const result = {};
@@ -895,7 +893,7 @@ const getDatesAndAmounts = (operationType) => {
                 result[date] += amount;
             } else {
                 result[date] = amount;
-                
+
             }
         }
     }
@@ -903,7 +901,6 @@ const getDatesAndAmounts = (operationType) => {
 };
 
 
-// Obtener el mes con mayor ganancia
 const getMonthMaxProfit = () => {
     const datesAndAmounts = getDatesAndAmounts('Ganancia');
 
@@ -913,7 +910,6 @@ const getMonthMaxProfit = () => {
     for (const date in datesAndAmounts) {
         const localAmount = datesAndAmounts[date];
 
-        // de numero (12) lo convertimos al nombre del mes en español (diciembre)
         const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
 
 
@@ -931,14 +927,13 @@ const getMonthMaxProfit = () => {
 
 const monthMaxProfit = getMonthMaxProfit();
 
-console.log("Mes con mayor ganancia:", monthMaxProfit.month);
-console.log("Monto de ganancia:", monthMaxProfit.amount);
 $('#monthCategoryProfit').textContent = `${monthMaxProfit.month}`;
 $('#monthAmountProfit').textContent = `+$ ${monthMaxProfit.amount}`;
 
 
 
-// mes CON MAYOR GASTO 
+
+//---- MONTH WITH HIGHEST EXPENSE -----//
 
 const getDateWithMaxExpense = () => {
     const datesAndAmounts = getDatesAndAmounts("Gasto");
@@ -965,8 +960,6 @@ const getDateWithMaxExpense = () => {
 
 const dateWithMaxExpense = getDateWithMaxExpense();
 
-console.log("Fecha con mayor gasto:", dateWithMaxExpense.date);
-console.log("Monto de gasto:", dateWithMaxExpense.amount);
 $('#monthCategoryExpense').textContent = `${dateWithMaxExpense.date}`;
 $('#monthAmountExpense').textContent = `-$ ${dateWithMaxExpense.amount}`;
 
@@ -974,13 +967,12 @@ $('#monthAmountExpense').textContent = `-$ ${dateWithMaxExpense.amount}`;
 
 
 
-// TOTALES POR CATEGORIA 
+//---- TOTALS BY CATEGORY-----//
 
 const getTotalsByCategory = () => {
     const operations = getData('operations') || [];
     const totals = {};
 
-    // Obtener las primeras 4 operaciones y pintarlas en pantalla
     const firstFourOperations = operations.slice(0, 4);
 
     for (const operation of firstFourOperations) {
@@ -1027,9 +1019,7 @@ const renderTotalsTable = () => {
 
 renderTotalsTable();
 
-
-// TOTALES POR MES 
-
+//---- TOTALS BY MONTH -----//
 const getTotalsByMonth = () => {
     const operations = getData('operations') || [];
     const totals = {};
@@ -1052,7 +1042,6 @@ const getTotalsByMonth = () => {
             };
         }
 
-        // Calcular el balance y almacenarlo
         totals[month].balance = totals[month].income - totals[month].expense;
     }
 
@@ -1060,7 +1049,6 @@ const getTotalsByMonth = () => {
 };
 
 
-//renderizamos
 const renderMonthTotalsTable = () => {
     const monthTotals = getTotalsByMonth();
 
@@ -1080,4 +1068,13 @@ const renderMonthTotalsTable = () => {
 };
 
 renderMonthTotalsTable();
+
+
+
+
+
+
+
+
+
 
