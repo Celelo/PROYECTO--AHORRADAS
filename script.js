@@ -87,7 +87,19 @@ const allOperation = getData('operations') || []
 
 const allCategories = getData("categories") || defaultCategories
 
+// Date
 
+const setDate = () => {
+    const dateInputs = $$("input[type='date']")
+    for (const date of dateInputs) {
+        date.valueAsDate = new Date()
+    }
+}
+
+const today = () => {
+    setDate()
+    return $("#inputDate").valueAsDate
+}
 // -------------------- RENDERS --------------------//
 
 // Operations 
@@ -195,12 +207,12 @@ const infoForm = () => {
 // Add operation
 
 const addOperation = () => {
-    $(("#operationInfo")).reset()
     const currentData = operations()
     currentData.push(infoForm())
     setData("operations", currentData)
     iterateOperations(currentData)
     showBalance(currentData)
+    $(("#operationInfo")).reset()
 }
 
 // Edit operation 
@@ -214,7 +226,6 @@ const editOperation = () => {
             return operation
         })
         setData('operations', currentData)
-        $(("#operationInfo")).reset()
         iterateOperations(currentData)
 }
 
@@ -239,7 +250,6 @@ const showDeleteOperation = (operationId) => {
     $('#deleteButtonNo').setAttribute('data-id', operationId)
     $('#deleteButtonNo').addEventListener('click', () => {
         const operationId = $('#deleteButtonNo').getAttribute('data-id')
-        console.log(operationId)
         deleteDate(operationId)
     })
 }
@@ -451,6 +461,55 @@ const confirmDeleteCategory = (categoryId) => {
 
 // -------------------- ******EVENTS ******--------------------//
 
+const validateOperationsForm = (field) => {
+    const description = $("#descriptionNo").value.trim()
+    const amount = $("#amountNo").valueAsNumber
+    const date = $("#inputDate").valueAsDate
+
+    const validationsPassed = description!== "" && amount && date < today()
+
+    switch (field) {
+        case "description":
+            if (description === "") {
+                remove(["#errorDescription"])
+                $("#descriptionNo").classList.add("invalid:border-red-500")
+            } else {
+                add(["#errorDescription"])
+                $("#descriptionNo").classList.remove("invalid:border-red-500")
+            }
+            break
+        case "amount":
+            if (!amount) {
+                remove(["#errorAmount"])
+                $("#amountNo").classList.add("invalid:border-red-500")
+            } else {
+                add(["#errorAmount"])
+                $("#amountNo").classList.remove("invalid:border-red-500")
+            }
+            break
+        case "date":
+            if (date > today()) {
+                remove(["#errorDate"])
+                $("#inputDate").classList.add("invalid:border-red-500")
+            } else {
+                add(["#errorDate"])
+                $("#inputDate").classList.remove("invalid:border-red-500")
+            }
+            break
+        default: 
+            alert("Error")
+    }
+
+    if (validationsPassed) {
+        $("#addButtonNo").removeAttribute("disabled")
+        $("#addEditButtonNo").removeAttribute("disabled")
+    } else {
+        $("#addButtonNo").setAttribute("disabled" , true)
+    }
+}
+
+// -------------------- ******EVENTS ******--------------------//
+
 const initialize = () => {
 
     //----------------- LOCAL STORAGE -----------------//
@@ -464,6 +523,7 @@ const initialize = () => {
     renderInputCategoriesOptions(allCategories)
 
     showBalance(allOperation)
+    setDate()
 
     //----------------- LOGO EVENTS-----------------//
 
@@ -510,8 +570,8 @@ const initialize = () => {
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
-        $(("#operationInfo")).reset()
         showScreens("Balance")
+        $(("#operationInfo")).reset()
     })
 
     $('#cancelDeleteOperation').addEventListener('click', () => {
@@ -536,6 +596,7 @@ const initialize = () => {
         e.preventDefault()
         addOperation()
         showScreens("Balance")
+        $(("#operationInfo")).reset()
     })
 
     // editar operacion
@@ -543,6 +604,7 @@ const initialize = () => {
         e.preventDefault()
         editOperation()
         showScreens("Balance")
+        $(("#operationInfo")).reset()
     })
 
     //Filters
@@ -576,10 +638,19 @@ const initialize = () => {
         e.preventDefault()
         editCategory()
         showScreens("Categories")
-        
     })
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
+    })
+
+    $("#descriptionNo").addEventListener("blur" , () => {
+        validateOperationsForm("description")
+    })
+    $("#amountNo").addEventListener("blur" , () => {
+        validateOperationsForm("amount")
+    })
+    $("#inputDate").addEventListener("change" , () => {
+        validateOperationsForm("date")
     })
 }
 
