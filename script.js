@@ -690,10 +690,6 @@ window.addEventListener('load', initialize())
 
 
 
-
-
-
-
 //---- Message no operations -----//
 
 const messageWithoutOperations = () => {
