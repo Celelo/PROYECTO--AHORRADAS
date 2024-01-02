@@ -671,7 +671,7 @@ const initialize = () => {
     $("#amountNo").addEventListener("blur" , () => {
         validateOperationsForm("amount")
     })
-    $("#inputDate").addEventListener("change" , () => {
+    $("#inputDate").addEventListener("click" , () => {
         validateOperationsForm("date")
     })
     $("#categoriesInput").addEventListener("input" , () => {
