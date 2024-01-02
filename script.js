@@ -702,11 +702,27 @@ const messageWithoutOperations = () => {
     console.log(updatedData);
 
     if (updatedData.length > 0) {
-        add(['.message-not-operation','#withReports'])
+        remove(['.message-not-operation',]);
     } else {
-        remove(['.message-not-operation','#noReports'])
+        add(['.message-not-operation',]);
     }
 };
+
+
+
+const messageWithoutOperationsReports = () => {
+    const updatedData = getData('operations') || [];
+
+    if (updatedData.length <= 2) {
+        remove(['#noReports']);
+        add(['#withReports', '#summary']);
+    }
+};
+
+window.addEventListener('load', () => {
+    initialize();
+    messageWithoutOperationsReports();
+});
 
 
 // -------------------- REPORTS FUNCTIONS --------------------//
