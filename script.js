@@ -527,6 +527,344 @@ const validateCategoriesForm = (input , message , button) => {
     }
 }
 
+//---- Message no operations -----//
+
+const messageWithoutOperations = () => {
+    const updatedData = getData('operations') || [];
+
+    console.log(updatedData);
+
+    if (updatedData.length > 0) {
+        remove(['.message-not-operation',]);
+    } else {
+        add(['.message-not-operation',]);
+    }
+}
+
+
+
+const messageWithoutOperationsReports = () => {
+    const updatedData = getData('operations') || [];
+
+    if (updatedData.length <= 2) {
+        remove(['#noReports']);
+        add(['#withReports', '#summary']);
+    }
+};
+
+window.addEventListener('load', () => {
+    initialize();
+    messageWithoutOperationsReports();
+});
+
+
+// -------------------- REPORTS FUNCTIONS --------------------/////
+
+
+
+const getCategoriesAndAmounts = () => {
+    const updatedtData = getData('operations') || [];
+    const result = {};
+
+    for (const operation of updatedtData) {
+        const { category, amount } = operation;
+
+
+        if (category in result) {
+            result[category] += parseFloat(amount);
+        } else {
+            result[category] = parseFloat(amount);
+        }
+    }
+    return result;
+};
+
+
+
+const greaterThanTwoOperations = () => {
+    return (getData('operations') || []).length > 2;
+};
+
+
+
+//---- CATEGORY WITH THE HIGHEST PROFIT -----//
+
+const getCategoryMax = () => {
+    if (!greaterThanTwoOperations()) return null;
+    const categoriesAndAmounts = getCategoriesAndAmounts();
+
+    let seniorCategory = null
+    let seniorAmount = 0;
+
+    for (const category in categoriesAndAmounts) {
+        const localAmounts = categoriesAndAmounts[category];
+        console.log(localAmounts)
+
+        if (localAmounts > seniorAmount) {
+            seniorAmount = localAmounts, seniorCategory = category;
+        }
+    }
+
+    return {
+        category: seniorCategory ? getData("categories").find(cat => cat.id === seniorCategory)?.name : null,
+        amount: seniorAmount
+    };
+};
+
+
+const categoryMajorProfit = getCategoryMax();
+
+
+if (categoryMajorProfit) {
+    $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
+    $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
+}
+
+
+
+//---- CATEGORY WITH HIGHEST EXPENSES-----//
+
+const getCategoriesAndExpenseAmounts = () => {
+    const operations = getData('operations') || [];
+    const result = {};
+
+    for (const operation of operations) {
+        const { category, amount, type } = operation;
+
+        if (type === "Gasto") {
+            if (category in result) {
+                result[category] += amount;
+            } else {
+                result[category] = amount;
+            }
+        }
+    }
+
+    return result;
+};
+
+const getCategoryMaxExpense = () => {
+    if (!greaterThanTwoOperations()) return null;
+
+    const categoriesAndAmounts = getCategoriesAndExpenseAmounts();
+
+    let maxExpenseCategory = null;
+    let maxExpenseAmount = 0;
+
+    for (const category in categoriesAndAmounts) {
+        const localAmount = categoriesAndAmounts[category];
+
+        if (localAmount > maxExpenseAmount) {
+            maxExpenseAmount = localAmount;
+            maxExpenseCategory = category;
+        }
+    }
+
+    return {
+        category: maxExpenseCategory ? getData("categories").find(cat => cat.id === maxExpenseCategory)?.name : null,
+        amount: maxExpenseAmount
+    };
+};
+
+const categoryMaxExpense = getCategoryMaxExpense();
+
+if (categoryMaxExpense && categoryMaxExpense.category) {
+    $('#expenseCategory').textContent = `${categoryMaxExpense.category}`;
+    $('#quantityMinorCategory').textContent = `-$ ${categoryMaxExpense.amount}`;
+}
+
+
+
+
+//---- CATEGORY WITH HIGHEST BALANCE-----//
+
+const getCategoriesAndTotalAmounts = () => {
+    const operations = getData('operations') || [];
+    const result = {};
+
+    for (const operation of operations) {
+        const { category, amount, type } = operation;
+
+        if (category in result) {
+            result[category] += (type === 'Ganancia' ? amount : -amount);
+        } else {
+            result[category] = (type === 'Ganancia' ? amount : -amount);
+        }
+    }
+
+    return result;
+};
+
+
+const getCategoryMaxBalance = () => {
+    if (!greaterThanTwoOperations()) return null;
+
+    const categoriesAndAmounts = getCategoriesAndTotalAmounts();
+
+    let maxBalanceCategory = null;
+    let maxBalanceAmount = 0;
+
+    for (const category in categoriesAndAmounts) {
+        const localAmount = categoriesAndAmounts[category];
+
+        if (localAmount > maxBalanceAmount) {
+            maxBalanceAmount = localAmount;
+            maxBalanceCategory = category;
+        }
+    }
+
+    return {
+        category: maxBalanceCategory ? getData("categories").find(cat => cat.id === maxBalanceCategory)?.name : null,
+        amount: maxBalanceAmount
+    };
+};
+
+const categoryMaxBalance = getCategoryMaxBalance();
+
+if (categoryMaxBalance && categoryMaxBalance.category) {
+    $('#balanceCategory').textContent = `${categoryMaxBalance.category}`;
+    $('#balanceAmount').textContent = `+$ ${categoryMaxBalance.amount}`;
+}
+
+
+
+//---- MONTH WITH HIGHEST PROFIT-----//
+
+const getDatesAndAmounts = (operationType) => {
+    const operations = getData('operations') || [];
+    const result = {};
+
+    for (const operation of operations) {
+        const { date, amount, type } = operation;
+
+        if (type === operationType) {
+            if (date in result) {
+                result[date] += amount;
+            } else {
+                result[date] = amount;
+
+            }
+        }
+    }
+    return result;
+};
+
+
+const getMonthMaxProfit = () => {
+    const datesAndAmounts = getDatesAndAmounts('Ganancia');
+
+    let maxProfitMonth = null;
+    let maxProfitAmount = 0;
+
+    for (const date in datesAndAmounts) {
+        const localAmount = datesAndAmounts[date];
+
+        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
+
+
+        if (localAmount > maxProfitAmount) {
+            maxProfitAmount = localAmount;
+            maxProfitMonth = month;
+        }
+    }
+
+    return {
+        month: maxProfitMonth,
+        amount: maxProfitAmount
+    };
+};
+
+const monthMaxProfit = getMonthMaxProfit();
+
+$('#monthCategoryProfit').textContent = `${monthMaxProfit.month}`;
+$('#monthAmountProfit').textContent = `+$ ${monthMaxProfit.amount}`;
+
+
+
+
+//---- MONTH WITH HIGHEST EXPENSE -----//
+
+const getDateWithMaxExpense = () => {
+    const datesAndAmounts = getDatesAndAmounts("Gasto");
+
+    let maxExpenseDate = null;
+    let maxExpenseAmount = 0;
+
+    for (const date in datesAndAmounts) {
+        const localAmount = datesAndAmounts[date];
+
+        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
+
+        if (localAmount > maxExpenseAmount) {
+            maxExpenseAmount = localAmount;
+            maxExpenseDate = month;
+        }
+    }
+
+    return {
+        date: maxExpenseDate,
+        amount: maxExpenseAmount
+    };
+};
+
+const dateWithMaxExpense = getDateWithMaxExpense();
+
+$('#monthCategoryExpense').textContent = `${dateWithMaxExpense.date}`;
+$('#monthAmountExpense').textContent = `-$ ${dateWithMaxExpense.amount}`;
+
+
+
+
+
+//---- TOTALS BY CATEGORY-----//
+
+const getTotalsByCategory = () => {
+    const operations = getData('operations') || [];
+    const totals = {};
+
+    const firstFourOperations = operations.slice(0, 4);
+
+    for (const operation of firstFourOperations) {
+        const { category, amount, type } = operation;
+        const categoryName = getData("categories").find(cat => cat.id === category)?.name;
+
+        if (categoryName in totals) {
+            if (type === 'Ganancia') {
+                totals[categoryName].income += amount;
+            } else if (type === 'Gasto') {
+                totals[categoryName].expense += amount;
+            }
+        } else {
+            totals[categoryName] = {
+                income: type === 'Ganancia' ? amount : 0,
+                expense: type === 'Gasto' ? amount : 0
+            };
+        }
+    }
+
+    return totals;
+};
+
+
+const renderTotalsTable = () => {
+    const totalsByCategory = getTotalsByCategory();
+    const tableBody = $('#totalsByCategorie');
+
+    for (const category in totalsByCategory) {
+        const { income, expense } = totalsByCategory[category];
+        const balance = income - expense;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="pr-2 border-b">${category}</td>
+            <td class="pr-2 border-b text-green-400">+$ ${income}</td>
+            <td class="pr-2 border-b text-red-600">-$ ${expense}</td>
+            <td class="pr-2 border-b">$ ${balance}</td>
+        `;
+
+        tableBody.appendChild(row);
+    }
+}
 
 // -------------------- ******EVENTS ******--------------------//
 
@@ -664,7 +1002,7 @@ const initialize = () => {
 
     //Operations
 
-    $("#descriptionNo").addEventListener("blur" , () => {
+    $("#descriptionNo").addEventListener("input" , () => {
         validateOperationsForm("description")
     })
     $("#amountNo").addEventListener("blur" , () => {
@@ -680,8 +1018,7 @@ const initialize = () => {
     })
     $("#editCategoryName").addEventListener("input" , () => {
         validateCategoriesForm("#editCategoryName" , "#errorEditCategory" , "#editCategoryButton")
-    })
-    
+    })   
 }
 
 window.addEventListener('load', initialize())
