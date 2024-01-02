@@ -722,7 +722,7 @@ window.addEventListener('load', () => {
 });
 
 
-// -------------------- REPORTS FUNCTIONS --------------------//
+// -------------------- REPORTS FUNCTIONS --------------------/////
 
 
 
