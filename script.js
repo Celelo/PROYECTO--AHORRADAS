@@ -95,11 +95,6 @@ const setDate = () => {
         date.valueAsDate = new Date()
     }
 }
-
-const today = () => {
-    setDate()
-    return $("#inputDate").valueAsDate
-}
 // -------------------- RENDERS --------------------//
 
 // Operations 
@@ -369,6 +364,7 @@ const sortBy = (value , array) => {
 const applyFilters = () => {
     const type = $("#type").value
     const category = `${$("#categories").value}`
+    
     const date = $("#date").value
     const value = $("#sortBy").value
 
@@ -466,7 +462,7 @@ const validateOperationsForm = (field) => {
     const amount = $("#amountNo").valueAsNumber
     const date = $("#inputDate").valueAsDate
 
-    const validationsPassed = description!== "" && amount && date < today()
+    const validationsPassed = description!== "" && amount && date
 
     switch (field) {
         case "description":
@@ -488,12 +484,12 @@ const validateOperationsForm = (field) => {
             }
             break
         case "date":
-            if (date > today()) {
+            if (!date) {
                 remove(["#errorDate"])
-                $("#inputDate").classList.add("invalid:border-red-500")
+                $("#inputDate").classList.add("required:border-red-500")
             } else {
                 add(["#errorDate"])
-                $("#inputDate").classList.remove("invalid:border-red-500")
+                $("#inputDate").classList.remove("required:border-red-500")
             }
             break
         default: 
@@ -505,6 +501,7 @@ const validateOperationsForm = (field) => {
         $("#addEditButtonNo").removeAttribute("disabled")
     } else {
         $("#addButtonNo").setAttribute("disabled" , true)
+        $("#addEditButtonNo").setAttribute("disabled" , true)
     }
 }
 
@@ -584,14 +581,15 @@ const initialize = () => {
     //-----------------OPERATIONS SCREEN EVENTS-----------------//
 
 
-    $('#btnNewOperation').addEventListener('click', () => {
+    $('#btnNewOperation').addEventListener('click', (e) => {
         showScreens('NewOperation')
+        remove(["#addButtonNo"])
+        add(["#addEditButtonNo"])
     })
 
     // cancelar nueva operacion
     $('#cancelButtonNo').addEventListener('click', () => {
         showScreens("Balance")
-        $(("#operationInfo")).reset()
     })
 
     $('#cancelDeleteOperation').addEventListener('click', () => {
@@ -612,16 +610,14 @@ const initialize = () => {
     })
 
 
-    $('#addButtonNo').addEventListener('click', (e) => {
-        e.preventDefault()
+    $('#addButtonNo').addEventListener('click', () => {
         addOperation()
         showScreens("Balance")
         $(("#operationInfo")).reset()
     })
 
     // editar operacion
-    $('#addEditButtonNo').addEventListener('click', (e) => {
-        e.preventDefault()
+    $('#addEditButtonNo').addEventListener('click', () => {
         editOperation()
         showScreens("Balance")
         $(("#operationInfo")).reset()
@@ -665,15 +661,21 @@ const initialize = () => {
     
     //---- Validation Events -----//
 
-    $("#descriptionNo").addEventListener("blur" , () => {
+    //Operations
+
+    $("#descriptionNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
         validateOperationsForm("description")
     })
-    $("#amountNo").addEventListener("blur" , () => {
+    $("#amountNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
         validateOperationsForm("amount")
     })
-    $("#inputDate").addEventListener("click" , () => {
+    $("#inputDate").addEventListener("input" , () => {
         validateOperationsForm("date")
     })
+
+    // Categories
     $("#categoriesInput").addEventListener("input" , () => {
         validateCategoriesForm("#categoriesInput" , "#errorNewCategory" , "#addCategoryButton")
     })

@@ -330,7 +330,7 @@
                     <div class="flex flex-col pb-3">
                         <label for="inputDate" class="text-xl pb-2">Fecha</label>
                         <input class="rounded-[4px] h-9 text-black" type="date" id="inputDate" value="">
-                        <p class="text-red-600 hidden" id="errorDate">No podés agregar movimientos que aún no ocurrieron</p>
+                        <p class="text-red-600 hidden" id="errorDate">Este campo es obligatorio</p>
                     </div>
 
                     <div class="text-right pt-6 pr-4">
@@ -340,13 +340,13 @@
                             Cancelar
                         </button>
                         <button
-                            class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
-                            id="addButtonNo">
+                            class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100 disabled:bg-gray-500 disabled:hover:text-white"
+                            id="addButtonNo" disabled="true">
                             Agregar
                         </button>
                         <button
-                            class="hidden p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
-                            id="addEditButtonNo">
+                            class="hidden p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100 disabled:bg-gray-500 disabled:hover:text-white"
+                            id="addEditButtonNo" disabled="true">
                             Agregar editado
                         </button>
                     </div>
@@ -372,7 +372,7 @@
                     </div>
                     <div>
                         <button id="addCategoryButton"
-                            class=" h-10 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:bg-white hover:text-slate-500 hover:duration-100">Agregar</button>
+                            class=" h-10 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:bg-white hover:text-slate-500 hover:duration-100 disabled:bg-gray-500 disabled:hover:text-white" disabled="true">Agregar</button>
                     </div>
                 </div>
                 <div id="categories" class="mt-10">
@@ -403,7 +403,7 @@
                     <button id="cancelButton"
                         class="p-1 px-4 mr-2 text-1xl text-slate-500 bg-[#e5dde6] border-2 border-white rounded-[1000px] hover:border-transparent hover:bg-white hover:text-slate-500 hover:duration-100">Cancelar</button>
                     <button id="editCategoryButton"
-                        class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:bg-white hover:text-slate-500 hover:duration-100">Editar</button>
+                        class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:bg-white hover:text-slate-500 hover:duration-100 disabled:bg-gray-500 disabled:hover:text-white" disabled="true">Editar</button>
                 </div>
             </div>
         </section>
