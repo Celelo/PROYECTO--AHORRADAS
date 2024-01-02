@@ -154,12 +154,12 @@
                                 <i class="fa-solid fa-arrow-up-wide-short text-2xl px-2"></i>
                             </div>
                             <button
-                                class="p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                                class="p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                                 id="hiddenFilters">
                                 Ocultar filtros
                             </button>
                             <button
-                                class="hidden p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                                class="hidden p-1 px-1 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                                 id="haddenFilters">
                                 Mostrar filtros
                             </button>
@@ -216,7 +216,7 @@
                         Operaciones
                     </h2>
                     <button
-                        class=" h-12 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                        class=" h-12 px-6 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                         id="btnNewOperation">
                         + Nueva operacion
                     </button>
@@ -340,12 +340,12 @@
                             Cancelar
                         </button>
                         <button
-                            class="p-1 px-4 text-1xl bg-[#d9c0d8] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                            class="p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                             id="addButtonNo">
                             Agregar
                         </button>
                         <button
-                            class="hidden p-1 px-4 text-1xl bg-[#d9c0d8] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:duration-100"
+                            class="hidden p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100"
                             id="addEditButtonNo">
                             Agregar editado
                         </button>
@@ -365,7 +365,10 @@
                 <label for="categoriesInput" class="text-xl">Nombre</label>
                 <div class="flex flex-row space-x-4">
                     <div class="w-[85%]">
-                        <form onsubmit="return false" id="categoriesInputForm" class="h-[100%]"><input  type="text" class="w-[100%] h-[100%] border-white rounded-[5px] text-black pl-2" id="categoriesInput" required></form>
+                        <form id="categoriesInputForm" class="">
+                            <input  type="text" class="w-[100%] h-10 border-white rounded-[5px] text-black pl-2" id="categoriesInput">
+                            <p class="text-red-600 hidden" id="errorNewCategory">Este campo es obligatorio</p>
+                        </form>
                     </div>
                     <div>
                         <button id="addCategoryButton"
@@ -394,6 +397,7 @@
                     <h2 class="text-4xl my-4">Editar categoría</h2>
                     <label for="editCategoryName" class="text-xl">Nombre</label>
                     <input type="text" id="editCategoryName" class="w-[100%] h-7 border-white rounded-[5px] mt-[2%] text-black pl-2">
+                    <p class="text-red-600 hidden" id="errorEditCategory">Este campo es obligatorio</p>
                 </div>
                 <div class="flex justify-end mt-7 md:mt-14">
                     <button id="cancelButton"

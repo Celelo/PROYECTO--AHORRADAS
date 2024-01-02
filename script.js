@@ -508,6 +508,26 @@ const validateOperationsForm = (field) => {
     }
 }
 
+const validateCategoriesForm = (input , message , button) => {
+    const description = $(input).value.trim()
+
+    const validationsPassed = description !== "" 
+
+    if (description === "") {
+        remove([message])
+    } else {
+        add([message])
+        
+    }
+
+    if (validationsPassed) {
+        $(button).removeAttribute("disabled")
+    } else {
+        $(button).setAttribute("disabled" , true)
+    }
+}
+
+
 // -------------------- ******EVENTS ******--------------------//
 
 const initialize = () => {
@@ -642,6 +662,8 @@ const initialize = () => {
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
     })
+    
+    //---- Validation Events -----//
 
     $("#descriptionNo").addEventListener("blur" , () => {
         validateOperationsForm("description")
@@ -652,6 +674,13 @@ const initialize = () => {
     $("#inputDate").addEventListener("change" , () => {
         validateOperationsForm("date")
     })
+    $("#categoriesInput").addEventListener("input" , () => {
+        validateCategoriesForm("#categoriesInput" , "#errorNewCategory" , "#addCategoryButton")
+    })
+    $("#editCategoryName").addEventListener("input" , () => {
+        validateCategoriesForm("#editCategoryName" , "#errorEditCategory" , "#editCategoryButton")
+    })
+    
 }
 
 window.addEventListener('load', initialize())
