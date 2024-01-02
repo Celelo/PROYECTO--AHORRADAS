@@ -525,172 +525,6 @@ const validateCategoriesForm = (input , message , button) => {
 }
 
 
-// -------------------- ******EVENTS ******--------------------//
-
-const initialize = () => {
-
-    //----------------- LOCAL STORAGE -----------------//
-
-    setData('operations', allOperation)
-    setData('categories', allCategories)
-
-    iterateOperations(allOperation)
-    renderCategories(allCategories)
-    renderCategoriesOptions(allCategories)
-    renderInputCategoriesOptions(allCategories)
-
-    showBalance(allOperation)
-    setDate()
-
-    //----------------- LOGO EVENTS-----------------//
-
-    $('#homeButton').addEventListener('click', () => {
-        showScreens("Balance")
-    }) 
-
-    //----------------- MENU EVENTS-----------------//
-
-
-    $('#burger-btn').addEventListener('click', () => {
-        $('#burgerMenu').classList.toggle('hidden');
-    });
-    $('#showBalance').addEventListener('click', () => {
-        showScreens("Balance")
-    }) 
-    $('#showCategories').addEventListener('click', () => {
-        showScreens("Categories")
-    }) 
-    $('#showReports').addEventListener('click', () => {
-        showScreens("Reports")
-    })
-
-    //-----------------BURGER MENU EVENTS-----------------//
-
-
-    $('#show-Balance').addEventListener('click', () => {
-        showScreens("Balance")
-    }) 
-    $('#show-Categories').addEventListener('click', () => {
-        showScreens("Categories")
-    }) 
-    $('#show-Reports').addEventListener('click', () => {
-        showScreens("Reports")
-    })
-
-
-    //-----------------OPERATIONS SCREEN EVENTS-----------------//
-
-
-    $('#btnNewOperation').addEventListener('click', (e) => {
-        showScreens('NewOperation')
-        remove(["#addButtonNo"])
-        add(["#addEditButtonNo"])
-    })
-
-    // cancelar nueva operacion
-    $('#cancelButtonNo').addEventListener('click', () => {
-        showScreens("Balance")
-    })
-
-    $('#cancelDeleteOperation').addEventListener('click', () => {
-        showScreens("Balance")
-    })
-
-    // ocultar filtros
-    $('#hiddenFilters').addEventListener('click', () => {
-        $('.section-filters').style.height = '20vh'
-        add(['.filters', '#hiddenFilters'])
-        remove(['#haddenFilters'])
-    })
-    // mostrar filtros
-    $('#haddenFilters').addEventListener('click', () => {
-        $('.section-filters').style.height = '57vh'
-        remove(['.filters', '#hiddenFilters'])
-        add(['#haddenFilters'])
-    })
-
-
-    $('#addButtonNo').addEventListener('click', () => {
-        addOperation()
-        showScreens("Balance")
-        $(("#operationInfo")).reset()
-    })
-
-    // editar operacion
-    $('#addEditButtonNo').addEventListener('click', () => {
-        editOperation()
-        showScreens("Balance")
-        $(("#operationInfo")).reset()
-    })
-
-    //Filters
-
-    $("#type").addEventListener("change" , () => {
-        applyFilters()
-    })
-    $("#categories").addEventListener("change" , () => {
-        applyFilters()
-    })
-    $("#date").addEventListener("change" , () => {
-        applyFilters()
-    })
-    $("#sortBy").addEventListener("change" , () => {
-        applyFilters()
-    })
-
-    //-----------------CATEGORIES SCREEN EVENTS-----------------//
-
-    //---- Add category -----//
-
-    $("#addCategoryButton").addEventListener('click' , (e) => {
-        e.preventDefault()
-        addCategory()
-        showScreens("Categories")
-    })
-
-    //---- Edit category -----//
-
-    $("#editCategoryButton").addEventListener('click' , (e) => {
-        e.preventDefault()
-        editCategory()
-        showScreens("Categories")
-    })
-    $('#cancelButton').addEventListener('click', () => {
-        showScreens("Categories")
-    })
-    
-    //---- Validation Events -----//
-
-    //Operations
-
-    $("#descriptionNo").addEventListener("blur" , (e) => {
-        e.preventDefault()
-        validateOperationsForm("description")
-    })
-    $("#amountNo").addEventListener("blur" , (e) => {
-        e.preventDefault()
-        validateOperationsForm("amount")
-    })
-    $("#inputDate").addEventListener("input" , () => {
-        validateOperationsForm("date")
-    })
-
-    // Categories
-    $("#categoriesInput").addEventListener("input" , () => {
-        validateCategoriesForm("#categoriesInput" , "#errorNewCategory" , "#addCategoryButton")
-    })
-    $("#editCategoryName").addEventListener("input" , () => {
-        validateCategoriesForm("#editCategoryName" , "#errorEditCategory" , "#editCategoryButton")
-    })
-    
-}
-
-
-window.addEventListener('load', initialize())
-
-
-
-
 //---- Message no operations -----//
 
 const messageWithoutOperations = () => {
@@ -1081,6 +915,175 @@ const renderMonthTotalsTable = () => {
 };
 
 renderMonthTotalsTable();
+
+
+
+
+// -------------------- ******EVENTS ******--------------------//
+
+const initialize = () => {
+
+    //----------------- LOCAL STORAGE -----------------//
+
+    setData('operations', allOperation)
+    setData('categories', allCategories)
+
+    iterateOperations(allOperation)
+    renderCategories(allCategories)
+    renderCategoriesOptions(allCategories)
+    renderInputCategoriesOptions(allCategories)
+
+    showBalance(allOperation)
+    setDate()
+
+    //----------------- LOGO EVENTS-----------------//
+
+    $('#homeButton').addEventListener('click', () => {
+        showScreens("Balance")
+    }) 
+
+    //----------------- MENU EVENTS-----------------//
+
+
+    $('#burger-btn').addEventListener('click', () => {
+        $('#burgerMenu').classList.toggle('hidden');
+    });
+    $('#showBalance').addEventListener('click', () => {
+        showScreens("Balance")
+    }) 
+    $('#showCategories').addEventListener('click', () => {
+        showScreens("Categories")
+    }) 
+    $('#showReports').addEventListener('click', () => {
+        showScreens("Reports")
+    })
+
+    //-----------------BURGER MENU EVENTS-----------------//
+
+
+    $('#show-Balance').addEventListener('click', () => {
+        showScreens("Balance")
+    }) 
+    $('#show-Categories').addEventListener('click', () => {
+        showScreens("Categories")
+    }) 
+    $('#show-Reports').addEventListener('click', () => {
+        showScreens("Reports")
+    })
+
+
+    //-----------------OPERATIONS SCREEN EVENTS-----------------//
+
+
+    $('#btnNewOperation').addEventListener('click', (e) => {
+        showScreens('NewOperation')
+        remove(["#addButtonNo"])
+        add(["#addEditButtonNo"])
+    })
+
+    // cancelar nueva operacion
+    $('#cancelButtonNo').addEventListener('click', () => {
+        showScreens("Balance")
+    })
+
+    $('#cancelDeleteOperation').addEventListener('click', () => {
+        showScreens("Balance")
+    })
+
+    // ocultar filtros
+    $('#hiddenFilters').addEventListener('click', () => {
+        $('.section-filters').style.height = '20vh'
+        add(['.filters', '#hiddenFilters'])
+        remove(['#haddenFilters'])
+    })
+    // mostrar filtros
+    $('#haddenFilters').addEventListener('click', () => {
+        $('.section-filters').style.height = '57vh'
+        remove(['.filters', '#hiddenFilters'])
+        add(['#haddenFilters'])
+    })
+
+
+    $('#addButtonNo').addEventListener('click', () => {
+        addOperation()
+        showScreens("Balance")
+        $(("#operationInfo")).reset()
+    })
+
+    // editar operacion
+    $('#addEditButtonNo').addEventListener('click', () => {
+        editOperation()
+        showScreens("Balance")
+        $(("#operationInfo")).reset()
+    })
+
+    //Filters
+
+    $("#type").addEventListener("change" , () => {
+        applyFilters()
+    })
+    $("#categories").addEventListener("change" , () => {
+        applyFilters()
+    })
+    $("#date").addEventListener("change" , () => {
+        applyFilters()
+    })
+    $("#sortBy").addEventListener("change" , () => {
+        applyFilters()
+    })
+
+    //-----------------CATEGORIES SCREEN EVENTS-----------------//
+
+    //---- Add category -----//
+
+    $("#addCategoryButton").addEventListener('click' , (e) => {
+        e.preventDefault()
+        addCategory()
+        showScreens("Categories")
+    })
+
+    //---- Edit category -----//
+
+    $("#editCategoryButton").addEventListener('click' , (e) => {
+        e.preventDefault()
+        editCategory()
+        showScreens("Categories")
+    })
+    $('#cancelButton').addEventListener('click', () => {
+        showScreens("Categories")
+    })
+    
+    //---- Validation Events -----//
+
+    //Operations
+
+    $("#descriptionNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
+        validateOperationsForm("description")
+    })
+    $("#amountNo").addEventListener("blur" , (e) => {
+        e.preventDefault()
+        validateOperationsForm("amount")
+    })
+    $("#inputDate").addEventListener("input" , () => {
+        validateOperationsForm("date")
+    })
+
+    // Categories
+    $("#categoriesInput").addEventListener("input" , () => {
+        validateCategoriesForm("#categoriesInput" , "#errorNewCategory" , "#addCategoryButton")
+    })
+    $("#editCategoryName").addEventListener("input" , () => {
+        validateCategoriesForm("#editCategoryName" , "#errorEditCategory" , "#editCategoryButton")
+    })
+    
+}
+
+
+window.addEventListener('load', initialize())
+
+
+
 
 
 
