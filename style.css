@@ -15,3 +15,40 @@
         padding-bottom: 5px;
     }
 }
+
+/* LIGHT/DARK MODE */
+:root {
+    --background-light: #ffffff;
+    --background-dark: #422f59;
+    --text-dark: #ffffff;
+    --background-violet: #644c73;
+    --background-grey: #55535b;
+    --icon-color: #f1f508;
+    --background-btn: #0c081b;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-light);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.yellow-icon{
+    color: var(--icon-color);
+}
+
+
+body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+}
+
+
+header.dark-mode {
+    background-color: var(--background-violet);
+    color: var(--text-dark);
+}
+
+section .dark-mode {
+    background-color: var(--background-violet)
+}

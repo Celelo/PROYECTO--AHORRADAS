@@ -866,6 +866,40 @@ const renderTotalsTable = () => {
     }
 }
 
+
+//----------------- LIGHT/DARK MODE -----------------//
+
+const darkMode = () => {
+    $('.dark-body').classList.add('dark-mode');
+    $('.dark-header').classList.add('dark-mode');
+    $('.dark-balance').classList.add('dark-mode');
+    $('.section-filters').classList.add('dark-mode')
+    $('.section-operation').classList.add('dark-mode')
+    $('.new-operation-screen').classList.add('dark-mode')
+    $('.reports').classList.add('dark-mode')
+    $('#containerEditCategory').classList.add('dark-mode')
+    $('.category').classList.add('dark-mode');
+    $('.edit-categorie').classList.add('dark-mode');
+
+    $('#sunIcon').classList.remove('yellow-icon');
+    $('#moonIcon').classList.add('yellow-icon');
+}
+const moonIcon = $('#moonIcon')
+moonIcon.addEventListener('click', darkMode);
+
+const lightMode = () => {
+
+    $('.dark-body').classList.remove('dark-mode');
+    $('.dark-header').classList.remove('dark-mode');
+    
+    $('#sunIcon').classList.add('yellow-icon');
+    $('#moonIcon').classList.remove('yellow-icon');
+}
+
+const sunIcon = $('#sunIcon')
+sunIcon.addEventListener('click', lightMode);
+
+
 // -------------------- ******EVENTS ******--------------------//
 
 const initialize = () => {

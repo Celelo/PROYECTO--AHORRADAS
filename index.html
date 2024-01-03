@@ -10,16 +10,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- SCRIPT DE FONTAWESOME -->
     <script src="https://kit.fontawesome.com/d47b1f1b61.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="imagenes/window-icon.png">
+
 </head>
 
 <body class="bg-[#d9c0d8]">
     <!-- INICIO HEADER -->
-    <header class="flex w-full bg-[#886a8e] h-24 shadow-2xl">
+    <header class="flex w-full bg-[#886a8e] h-24 shadow-2xl dark-header">
         <div class="flex items-center text-[2rem] text-white ml-5 grow cursor-pointer" id="homeButton">
             <i class="fa-solid fa-piggy-bank fa-bounce mr-2 cursor-pointer"></i>
             <h1 class="cursor-pointer font-mono">
                 ahorrADAs
             </h1>
+
+            <!-- MODO CLARO/OSCURO -->
+            <div class="pl-3 px-3 ml-6 border-transparent text-slate-500 bg-white border-2 border-white rounded-[50px]">
+                <i id="sunIcon" class="yellow-icon fa-regular fa-sun text-[1.4rem]  pr-9 pb-3 cursor-pointer"></i>
+                <span class="pr-3">|</span>
+                <i id="moonIcon" class="fa-regular fa-moon text-[1.4rem] pl-9 pb-3 btn-black cursor-pointer" ></i>
+            </div>
         </div>
         <!-- INICIO NAV -->
         <nav class="text-white">
