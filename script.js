@@ -457,7 +457,7 @@ const confirmDeleteCategory = (categoryId) => {
     renderInputCategoriesOptions(deleteCategory(categoryId))
 }
 
-// -------------------- ******EVENTS ******--------------------//
+// -------------------- ****** VALIDATIONS ******--------------------//
 
 const validateOperationsForm = (field) => {
     const description = $("#descriptionNo").value.trim()
@@ -527,6 +527,8 @@ const validateCategoriesForm = (input , message , button) => {
     }
 }
 
+// -------------------- ****** REPORTS ******--------------------//
+
 //---- Message no operations -----//
 
 const messageWithoutOperations = () => {
@@ -552,10 +554,6 @@ const messageWithoutOperationsReports = () => {
     }
 };
 
-window.addEventListener('load', () => {
-    initialize();
-    messageWithoutOperationsReports();
-});
 
 
 // -------------------- REPORTS FUNCTIONS --------------------/////
@@ -817,17 +815,13 @@ $('#monthAmountExpense').textContent = `-$ ${dateWithMaxExpense.amount}`;
 
 
 //---- TOTALS BY CATEGORY-----//
-
 const getTotalsByCategory = () => {
     const operations = getData('operations') || [];
     const totals = {};
-
     const firstFourOperations = operations.slice(0, 4);
-
     for (const operation of firstFourOperations) {
         const { category, amount, type } = operation;
         const categoryName = getData("categories").find(cat => cat.id === category)?.name;
-
         if (categoryName in totals) {
             if (type === 'Ganancia') {
                 totals[categoryName].income += amount;
@@ -841,19 +835,14 @@ const getTotalsByCategory = () => {
             };
         }
     }
-
     return totals;
 };
-
-
 const renderTotalsTable = () => {
     const totalsByCategory = getTotalsByCategory();
     const tableBody = $('#totalsByCategorie');
-
     for (const category in totalsByCategory) {
         const { income, expense } = totalsByCategory[category];
         const balance = income - expense;
-
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="pr-2 border-b">${category}</td>
@@ -861,10 +850,48 @@ const renderTotalsTable = () => {
             <td class="pr-2 border-b text-red-600">-$ ${expense}</td>
             <td class="pr-2 border-b">$ ${balance}</td>
         `;
-
         tableBody.appendChild(row);
     }
-}
+};
+renderTotalsTable();
+//---- TOTALS BY MONTH -----//
+const getTotalsByMonth = () => {
+    const operations = getData('operations') || [];
+    const totals = {};
+    for (const operation of operations) {
+        const { date, amount, type } = operation;
+        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
+        if (month in totals) {
+            if (type === 'Ganancia') {
+                totals[month].income += amount;
+            } else if (type === 'Gasto') {
+                totals[month].expense += amount;
+            }
+        } else {
+            totals[month] = {
+                income: type === 'Ganancia' ? amount : 0,
+                expense: type === 'Gasto' ? amount : 0
+            };
+        }
+        totals[month].balance = totals[month].income - totals[month].expense;
+    }
+    return totals;
+};
+const renderMonthTotalsTable = () => {
+    const monthTotals = getTotalsByMonth();
+    const tableBody = $('#monthTotals');
+    Object.keys(monthTotals).forEach(month => {
+        const monthRow = document.createElement('tr');
+        monthRow.innerHTML = `
+            <td class="pr-36 border-b">${month}</td>
+            <td class="pr-36 border-b text-green-400">+$ ${monthTotals[month].income}</td>
+            <td class="pr-32 border-b text-red-600">-$ ${monthTotals[month].expense}</td>
+            <td class="pr-2 border-b">$ ${monthTotals[month].balance}</td>
+        `;
+        tableBody.appendChild(monthRow);
+    });
+};
+renderMonthTotalsTable();
 
 
 //----------------- LIGHT/DARK MODE -----------------//
@@ -922,6 +949,8 @@ const initialize = () => {
     $('#homeButton').addEventListener('click', () => {
         showScreens("Balance")
     }) 
+
+    
 
     //----------------- MENU EVENTS-----------------//
 
