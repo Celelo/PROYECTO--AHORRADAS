@@ -438,63 +438,43 @@
         
                         <!-- Resumen -->
         
-                        <div id="withReports" class="flex flex-col p-3">
+                        <div id="withReports" class="p-3">
                             <section id="summary">
                                 <h3 class="text-[1.3rem] pb-6">Resumen</h3>
         
                                 <!-- Categoría con mayor ganancia -->
-        
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor ganancia</div>
-                                    <div class="col-start-4 col-span-1 pr-28 pb-3">
-                                        <span id="tagCategory"
-                                            class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
-                                    </div>
-                                    <div id="amountCategory" class="col-start-5 col-span-1 text-green-400"></div>
-                                </div>
-        
-                                <!-- Categoría con mayor gasto -->
-        
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor gasto</div>
-                                    <div class="col-start-4 col-span-1 pr-[120px] pb-3">
-                                        <span id="expenseCategory"
-                                            class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
-                                    </div>
-                                    <div id="quantityMinorCategory" class="col-start-5 col-span-1 text-red-600"></div>
-                                </div>
-        
-                                <!-- Categoría con mayor balance -->
-        
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="col-start-1 col-span-3 text-[0.95rem]">Categoría con mayor balance</div>
-                                    <div class="col-start-4 col-span-1 pr-28 pb-3">
-                                        <span id="balanceCategory"
-                                            class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-[10%]"></span>
-                                    </div>
-                                    <div id="balanceAmount" class="col-start-5 col-span-1"></div>
-                                </div>
-        
-                                <!-- Mes con mayor ganancia -->
-        
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="col-start-1 col-span-3 text-[0.95rem]">Mes con mayor ganancia</div>
-                                    <div class="col-start-4 col-span-1 pr-24 pb-3">
-                                        <span id="monthCategoryProfit"></span>
-                                    </div>
-                                    <div id="monthAmountProfit" class="col-start-5 col-span-1 text-green-400"></div>
-                                </div>
-        
-                                <!-- Mes con mayor gasto -->
-        
-                                <div class="grid grid-cols-3 gap-3">
-                                    <div class="col-start-1 col-span-3 text-[0.95rem]">Mes con mayor gasto</div>
-                                    <div class="col-start-4 col-span-1 pr-28 pb-3">
-                                        <span id="monthCategoryExpense"></span>
-                                    </div>
-                                    <div id="monthAmountExpense" class="col-start-5 col-span-1 text-red-600"></div>
-                                </div>
-        
+                                <table class="min-w-full table-auto">
+                                    <tbody>
+                                        <tr class="border-b">
+                                            <td>Categoría con mayor ganancia</td>
+                                            <td><div id="tagCategory"
+                                                class="bg-[#8f7193] text-left text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-full text-center"></div></td>
+                                            <td id="amountCategory" class="text-green-400 text-right"></td>
+                                        </tr>
+                                        <tr class="border-b">
+                                            <td>Categoría con mayor gasto</td>
+                                            <td><div id="expenseCategory"
+                                                class="bg-[#8f7193] text-left text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-full text-center"></div></td>
+                                            <td id="quantityMinorCategory" class=" text-red-600 text-right"></td>
+                                        </tr>
+                                        <tr class="border-b">
+                                            <td>Categoría con mayor balance</td>
+                                            <td><div id="balanceCategory"
+                                                class="bg-[#8f7193] text-[0.8rem] px-1 border-2 border-[#8f7193] rounded-full text-center"></div></td>
+                                            <td id="balanceAmount"class="text-right"></td>
+                                        </tr>
+                                        <tr class="border-b">
+                                            <td>Mes con mayor ganancia</td>
+                                            <td id="monthCategoryProfit" class="text-center"></td>
+                                            <td id="monthAmountProfit" class="text-green-400 text-right"></td>
+                                        </tr>
+                                        <tr class="border-b">
+                                            <td>Mes con mayor gasto</td>
+                                            <td id="monthCategoryExpense" class="text-center"><div></div></td>
+                                            <td id="monthAmountExpense" class="text-red-600 text-right"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </section>
         
                             <!-- Totales por categoría -->

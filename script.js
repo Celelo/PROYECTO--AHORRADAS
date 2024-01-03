@@ -531,28 +531,21 @@ const validateCategoriesForm = (input , message , button) => {
 
 //---- Message no operations -----//
 
-const messageWithoutOperations = () => {
-    const updatedData = getData('operations') || [];
 
-    console.log(updatedData);
-
-    if (updatedData.length > 0) {
-        remove(['.message-not-operation',]);
-    } else {
-        add(['.message-not-operation',]);
-    }
-}
 
 
 
 const messageWithoutOperationsReports = () => {
-    const updatedData = getData('operations') || [];
-
+    const updatedData = getData('operations')
+    console.log(updatedData)
     if (updatedData.length <= 2) {
         remove(['#noReports']);
         add(['#withReports', '#summary']);
+    } else {
+        add(['#noReports']);
+        remove(['#withReports', '#summary'])
     }
-};
+}
 
 
 
@@ -596,7 +589,6 @@ const getCategoryMax = () => {
 
     for (const category in categoriesAndAmounts) {
         const localAmounts = categoriesAndAmounts[category];
-        console.log(localAmounts)
 
         if (localAmounts > seniorAmount) {
             seniorAmount = localAmounts, seniorCategory = category;
@@ -893,7 +885,6 @@ const renderMonthTotalsTable = () => {
 };
 renderMonthTotalsTable();
 
-
 //----------------- LIGHT/DARK MODE -----------------//
 
 const darkMode = () => {
@@ -937,6 +928,7 @@ const initialize = () => {
 
     showBalance(allOperation)
     setDate()
+    messageWithoutOperationsReports()
 
     //----------------- LOGO EVENTS-----------------//
 
