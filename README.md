@@ -2,7 +2,7 @@
 
 **Bienvenida/o a nuestra aplicación web "AhorrADAs"**
 
-*En esta aplicacion vas a poder gestionar tu dinero, ver tus gastos, ganancias y demas💰*
+*En esta aplicacion vas a poder gestionar tu dinero, ver tus gastos, ganancias y demás💰*
 
 💸[link de la pagina](https://celelo.github.io/PROYECTO--AHORRADAS/)💸
 
