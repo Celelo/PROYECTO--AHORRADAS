@@ -14,9 +14,9 @@
 
 </head>
 
-<body class="bg-[#d9c0d8]">
+<body class="bg-[#d9c0d8] change">
     <!-- INICIO HEADER -->
-    <header class="flex w-full bg-[#886a8e] h-24 shadow-2xl dark-header">
+    <header class="flex w-full bg-[#886a8e] h-24 shadow-2xl change">
         <div class="flex items-center text-[2rem] text-white ml-5 grow cursor-pointer" id="homeButton">
             <i class="fa-solid fa-piggy-bank fa-bounce mr-2 cursor-pointer"></i>
             <h1 class="cursor-pointer font-mono">
@@ -25,9 +25,9 @@
 
             <!-- MODO CLARO/OSCURO -->
             <div class="pl-3 px-3 ml-6 border-transparent text-slate-500 bg-white border-2 border-white rounded-[50px]">
-                <i id="sunIcon" class="yellow-icon fa-regular fa-sun text-[1.4rem]  pr-9 pb-3 cursor-pointer"></i>
+                <i id="sunIcon" class="yellow-icon fa-regular fa-sun text-[1.4rem]  pr-3 pb-3 cursor-pointer"></i>
                 <span class="pr-3">|</span>
-                <i id="moonIcon" class="fa-regular fa-moon text-[1.4rem] pl-9 pb-3 btn-black cursor-pointer" ></i>
+                <i id="moonIcon" class="fa-regular fa-moon text-[1.4rem] pl-3 pb-3 btn-black cursor-pointer" ></i>
             </div>
         </div>
         <!-- INICIO NAV -->
@@ -117,7 +117,7 @@
 
                 <!-- balance -->
                 <div
-                    class="mb-9 w-[100%] h-60 bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl">
+                    class="mb-9 w-[100%] h-60 bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl change">
 
                     <div class="flex py-2">
                         <h2 class="font-mono text-4xl">
@@ -151,7 +151,7 @@
 
                 <!-- filtros -->
                 <div
-                    class="mb-9  w-[100%] h-[420px] bg-[#a183a2] border-2 border-white rounded-[5px] px-1 text-white shadow-2xl section-filters">
+                    class="mb-9  w-[100%] h-[420px] bg-[#a183a2] border-2 border-white rounded-[5px] px-1 text-white shadow-2xl change">
 
                     <div class="px-2">
 
@@ -218,7 +218,7 @@
 
             <!-- operaciones -->
             <div
-                class=" w-[50%] bg-[#a183a2] border-2 border-white rounded-[5px] px-6 text-white shadow-2xl operations-section pb-1 mb-9">
+                class=" w-[50%] bg-[#a183a2] border-2 border-white rounded-[5px] px-6 text-white shadow-2xl operations-section pb-1 mb-9 change">
 
                 <div class="flex justify-between aling-center pt-4 operations-btn-title">
                     <h2 class="font-mono text-4xl pb-4">
@@ -271,7 +271,7 @@
 
 
             </div>
-            <div class="hidden fixed inset-0 overflow-y-auto screen" id="containerDeleteWindow">
+            <div class="hidden fixed inset-0 overflow-y-auto screen change" id="containerDeleteWindow">
                 <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
                     <div class="fixed inset-0 transition-opacity">
                         <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -303,7 +303,7 @@
         <!-- INICIO PANTALLA NUEVA OPERACION -->
         <section class="hidden flex justify-center py-14 px-6 new-operarion-screen screen" id="containerNewOperation">
             <div
-                class="mb-9 w-[60%] bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl py-6">
+                class="mb-9 w-[60%] bg-[#a183a2] border-2 border-white rounded-[5px] px-2 text-white shadow-2xl py-6 change">
                 <h2 class="font-mono text-4xl py-4">
                     Nueva operacion
                 </h2>
@@ -355,7 +355,7 @@
                         </button>
                         <button
                             class="hidden p-1 px-4 text-1xl bg-[#b899bc] border-2 border-white rounded-[1000px] hover:border-transparent hover:text-slate-500 hover:bg-white hover:duration-100 disabled:bg-gray-500 disabled:hover:text-white"
-                            id="addEditButtonNo" disabled="true">
+                            id="addEditButtonNo">
                             Agregar editado
                         </button>
                     </div>
@@ -369,7 +369,7 @@
 
         <section class="hidden flex justify-center py-14 px-6 screen" id="containerCategories">
             <div
-                class="w-[100%] bg-[#a183a2] border-2 border-white rounded-[5px] px-3 py-3 text-white shadow-2xl md:max-w-[80%] lg:max-w-[55%]">
+                class="w-[100%] bg-[#a183a2] border-2 border-white rounded-[5px] px-3 py-3 text-white shadow-2xl md:max-w-[80%] lg:max-w-[55%] change">
                 <h2 class="text-4xl my-4">Categorías</h2>
                 <label for="categoriesInput" class="text-xl">Nombre</label>
                 <div class="flex flex-row space-x-4">
@@ -401,7 +401,7 @@
 
         <section  id="containerEditCategory" class="hidden flex justify-center py-14 px-6 screen">
             <div
-                class="w-[85%] py-3 bg-[#a183a2] border-2 border-white rounded-[5px] px-3 text-white shadow-2xl md:max-w-[50%] xl:max-w-[40%]">
+                class="w-[85%] py-3 bg-[#a183a2] border-2 border-white rounded-[5px] px-3 text-white shadow-2xl md:max-w-[50%] xl:max-w-[40%] change">
                 <div>
                     <h2 class="text-4xl my-4">Editar categoría</h2>
                     <label for="editCategoryName" class="text-xl">Nombre</label>
@@ -419,15 +419,6 @@
 
         <!-- Fin editar categorías -->
 
-        <div class="hidden fixed inset-0 overflow-y-auto screen" id="containerDeleteCategory">
-            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
-                <div class="fixed inset-0 transition-opacity">
-                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-                <span class=" sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            </div>
-        </div>
-
         <!-- FIN PANTALLA CATEGORIAS -->
 
 
@@ -435,7 +426,7 @@
 
                 <section class="hidden flex justify-center py-14 px-6 screen" id="containerReports">
                     <div
-                        class="w-[100%] pb-3 px-3 bg-[#a183a2] border-2 border-white rounded-[5px] text-white shadow-2xl md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] ">
+                        class="w-[100%] pb-3 px-3 bg-[#a183a2] border-2 border-white rounded-[5px] text-white shadow-2xl md:max-w-[80%] lg:max-w-[70%] xl:max-w-[60%] change">
                         <h2 class="text-4xl my-4">Reportes</h2>
                         <div id="noReports" class="hidden flex flex-col text-center mt-8">
                             <figure class="flex justify-center self-center">
