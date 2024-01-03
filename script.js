@@ -623,15 +623,16 @@ const getCategoriesAndExpenseAmounts = () => {
 
         if (type === "Gasto") {
             if (category in result) {
-                result[category] += amount;
+                result[category] += parseFloat(amount);
             } else {
-                result[category] = amount;
+                result[category] = parseFloat(amount);
             }
         }
     }
 
     return result;
 };
+
 
 const getCategoryMaxExpense = () => {
     if (!greaterThanTwoOperations()) return null;
@@ -662,7 +663,6 @@ if (categoryMaxExpense && categoryMaxExpense.category) {
     $('#expenseCategory').textContent = `${categoryMaxExpense.category}`;
     $('#quantityMinorCategory').textContent = `-$ ${categoryMaxExpense.amount}`;
 }
-
 
 
 
