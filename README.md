@@ -10,13 +10,16 @@
 
 *Programadoras:*
 
-*° Gabriela Figueroa✨*
+*° Gabriela Figueroa✨* 
 
 *° Celeste Lopez ✨*
 
-### tecnologias usadas:
+### Tecnologías usadas:
 - [x] Html5
 - [x] Css3
 - [x] JavaScript
 - [x] Tailwind css
 - [x] font awesome
+
+## Derechos de autor
+La web se desarrolló en un contexto de aprendizaje y siguiendo un modelo proporcionado por ADA ITW. Más allá de eso, la paleta de colores fue seleccionada por sus autoras al igual que algunos estilos distintivos del modelo.
