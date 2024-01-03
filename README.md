@@ -20,7 +20,7 @@
 
 *✨💰¿Sabías que la palabra ahorro proviene de la palabra árabe AlHurr? AlHurr era la suma de dinero que juntaba un esclavo para poder comprar su libertad, por ello el ahorro nos brinda libertad de poder dirigir nuestras vidas de manera independiente! No hay más independencia que la económica✨💰*
 
-### Desallodoras:
+### Desarolladoras:
 
 *° Gabriela Figueroa✨* [LinkedIn](https://www.linkedin.com/in/gabriela-figueroa-196a70110/)
 
