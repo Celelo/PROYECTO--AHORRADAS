@@ -438,6 +438,7 @@ const editCategory = () => {
     renderInputCategoriesOptions(currentData)
     iterateOperations(allOperation)
     $("#editCategoryButton").setAttribute("disabled" , true)
+    location.reload()
 }
 
 //Delete category
