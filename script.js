@@ -425,13 +425,16 @@ const showEditCategory = (categoryID) => {
 }
 
 const editCategory = () => {
-    const categoryId = $(".edit-category").getAttribute("data-id")
-    const currentData = getData("categories").map(category => {
-        if (category.id === categoryId) {
-            return modifyCategory(categoryId)
-        }
-        return category
-    })
+    const categoryId = $(".edit-category").getAttribute("data-id");
+    
+    const updatedCategory = modifyCategory(categoryId);
+
+    if (!updatedCategory) {
+        return;
+    }
+
+    const currentData = getData("categories").map(category => (category.id === categoryId) ? updatedCategory : category)
+
     setData("categories", currentData)
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
@@ -717,7 +720,7 @@ if (categoryMaxBalance && categoryMaxBalance.category) {
 
 
 
-//---- MONTH WITH HIGHEST PROFIT-----//
+//---- MONTH WITH HIGHEST PROFIT -----//
 
 const getDatesAndAmounts = (operationType) => {
     const operations = getData('operations') || [];
@@ -731,13 +734,11 @@ const getDatesAndAmounts = (operationType) => {
                 result[date] += amount;
             } else {
                 result[date] = amount;
-
             }
         }
     }
     return result;
 };
-
 
 const getMonthMaxProfit = () => {
     const datesAndAmounts = getDatesAndAmounts('Ganancia');
@@ -748,12 +749,11 @@ const getMonthMaxProfit = () => {
     for (const date in datesAndAmounts) {
         const localAmount = datesAndAmounts[date];
 
-        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
-
+        const monthYear = new Date(date).toLocaleString('es-ES', { month: 'long', year: 'numeric' });
 
         if (localAmount > maxProfitAmount) {
             maxProfitAmount = localAmount;
-            maxProfitMonth = month;
+            maxProfitMonth = monthYear;
         }
     }
 
@@ -768,38 +768,89 @@ const monthMaxProfit = getMonthMaxProfit();
 $('#monthCategoryProfit').textContent = `${monthMaxProfit.month}`;
 $('#monthAmountProfit').textContent = `+$ ${monthMaxProfit.amount}`;
 
-
-
-
 //---- MONTH WITH HIGHEST EXPENSE -----//
 
 const getDateWithMaxExpense = () => {
     const datesAndAmounts = getDatesAndAmounts("Gasto");
 
-    let maxExpenseDate = null;
+    let maxExpenseMonth = null;
     let maxExpenseAmount = 0;
 
     for (const date in datesAndAmounts) {
         const localAmount = datesAndAmounts[date];
 
-        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
+        const monthYear = new Date(date).toLocaleString('es-ES', { month: 'long', year: 'numeric' });
 
         if (localAmount > maxExpenseAmount) {
             maxExpenseAmount = localAmount;
-            maxExpenseDate = month;
+            maxExpenseMonth = monthYear;
         }
     }
 
     return {
-        date: maxExpenseDate,
+        month: maxExpenseMonth,
         amount: maxExpenseAmount
     };
 };
 
 const dateWithMaxExpense = getDateWithMaxExpense();
 
-$('#monthCategoryExpense').textContent = `${dateWithMaxExpense.date}`;
+$('#monthCategoryExpense').textContent = `${dateWithMaxExpense.month}`;
 $('#monthAmountExpense').textContent = `-$ ${dateWithMaxExpense.amount}`;
+
+
+
+
+// ---- TOTALS BY MONTH ---- //
+const getTotalsByMonth = () => {
+    const operations = getData('operations') || [];
+    const totals = {};
+
+    for (const operation of operations) {
+        const { date, amount, type } = operation;
+        const operationDate = new Date(date);
+        const month = operationDate.toLocaleString('es-ES', { month: 'long' });
+        const year = operationDate.getFullYear();
+
+        const monthYearKey = `${month} ${year}`;
+        if (monthYearKey in totals) {
+            if (type === 'Ganancia') {
+                totals[monthYearKey].income += amount;
+            } else if (type === 'Gasto') {
+                totals[monthYearKey].expense += amount;
+            }
+        } else {
+            totals[monthYearKey] = {
+                income: type === 'Ganancia' ? amount : 0,
+                expense: type === 'Gasto' ? amount : 0
+            };
+        }
+        totals[monthYearKey].balance = totals[monthYearKey].income - totals[monthYearKey].expense;
+    }
+
+    return totals;
+};
+
+const renderMonthTotalsTable = () => {
+    const monthTotals = getTotalsByMonth();
+    const tableBody = $('#monthTotals');
+
+    tableBody.innerHTML = '';
+
+    Object.keys(monthTotals).forEach(monthYear => {
+        const [month, year] = monthYear.split(' ');
+
+        const monthRow = document.createElement('tr');
+        monthRow.innerHTML = `
+            <td class="pr-36 border-b">${month} ${year}</td>
+            <td class="pr-36 border-b text-green-400">+$ ${monthTotals[monthYear].income}</td>
+            <td class="pr-32 border-b text-red-600">-$ ${monthTotals[monthYear].expense}</td>
+            <td class="pr-2 border-b">$ ${monthTotals[monthYear].balance}</td>
+        `;
+        tableBody.appendChild(monthRow);
+    });
+};
+renderMonthTotalsTable();
 
 
 
@@ -845,44 +896,6 @@ const renderTotalsTable = () => {
     }
 };
 renderTotalsTable();
-//---- TOTALS BY MONTH -----//
-const getTotalsByMonth = () => {
-    const operations = getData('operations') || [];
-    const totals = {};
-    for (const operation of operations) {
-        const { date, amount, type } = operation;
-        const month = new Date(date).toLocaleString('es-ES', { month: 'long' });
-        if (month in totals) {
-            if (type === 'Ganancia') {
-                totals[month].income += amount;
-            } else if (type === 'Gasto') {
-                totals[month].expense += amount;
-            }
-        } else {
-            totals[month] = {
-                income: type === 'Ganancia' ? amount : 0,
-                expense: type === 'Gasto' ? amount : 0
-            };
-        }
-        totals[month].balance = totals[month].income - totals[month].expense;
-    }
-    return totals;
-};
-const renderMonthTotalsTable = () => {
-    const monthTotals = getTotalsByMonth();
-    const tableBody = $('#monthTotals');
-    Object.keys(monthTotals).forEach(month => {
-        const monthRow = document.createElement('tr');
-        monthRow.innerHTML = `
-            <td class="pr-36 border-b">${month}</td>
-            <td class="pr-36 border-b text-green-400">+$ ${monthTotals[month].income}</td>
-            <td class="pr-32 border-b text-red-600">-$ ${monthTotals[month].expense}</td>
-            <td class="pr-2 border-b">$ ${monthTotals[month].balance}</td>
-        `;
-        tableBody.appendChild(monthRow);
-    });
-};
-renderMonthTotalsTable();
 
 //----------------- LIGHT/DARK MODE -----------------//
 
@@ -926,6 +939,7 @@ const initialize = () => {
     showBalance(allOperation)
     setDate()
     messageWithoutOperationsReports()
+    applyFilters()
 
     //----------------- LOGO EVENTS-----------------//
 
@@ -1031,11 +1045,10 @@ const initialize = () => {
 
     //---- Add category -----//
 
-    $("#addCategoryButton").addEventListener('click' , (e) => {
-        e.preventDefault()
-        addCategory()
-        showScreens("Categories")
-    })
+    $("#editCategoryButton").addEventListener('click', (e) => {
+    e.preventDefault();
+    showScreens("Balance");
+});
 
     //---- Edit category -----//
 
@@ -1044,6 +1057,7 @@ const initialize = () => {
         editCategory()
         showScreens("Categories")
     })
+
     $('#cancelButton').addEventListener('click', () => {
         showScreens("Categories")
     })
