@@ -942,6 +942,7 @@ const initialize = () => {
 
     $('#homeButton').addEventListener('click', () => {
         showScreens("Balance")
+        applyFilters()
     }) 
 
     //----------------- DARK/LIGHT MODE-----------------//
@@ -958,6 +959,7 @@ const initialize = () => {
     });
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
+        applyFilters()
     }) 
     $('#showCategories').addEventListener('click', () => {
         showScreens("Categories")
@@ -971,6 +973,7 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
+        applyFilters()
     }) 
     $('#show-Categories').addEventListener('click', () => {
         showScreens("Categories")
