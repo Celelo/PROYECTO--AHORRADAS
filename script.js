@@ -455,6 +455,11 @@ const confirmDeleteCategory = (categoryId) => {
     renderCategoriesOptions(deleteCategory(categoryId))
     renderInputCategoriesOptions(deleteCategory(categoryId))
     iterateOperations(currentData)
+    renderTotalsTable()
+    renderCatInMaxBalance()
+    renderCatInMaxExpense()
+    renderCatInMaxProfit()
+    messageWithoutOperationsReports()
 }
 
 // -------------------- ****** VALIDATIONS ******--------------------//
