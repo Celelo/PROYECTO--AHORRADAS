@@ -1056,10 +1056,9 @@ const initialize = () => {
 
     //---- Add category -----//
 
-    $("#editCategoryButton").addEventListener('click', (e) => {
-    e.preventDefault();
-    showScreens("Balance");
-});
+    $("#addCategoryButton").addEventListener('click', () => {
+    addCategory()
+})
 
     //---- Edit category -----//
 
