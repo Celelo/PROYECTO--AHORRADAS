@@ -438,7 +438,6 @@ const editCategory = () => {
     renderInputCategoriesOptions(currentData)
     iterateOperations(allOperation)
     $("#editCategoryButton").setAttribute("disabled" , true)
-    location.reload()
 }
 
 //Delete category
@@ -601,14 +600,16 @@ const getCategoryMax = () => {
     };
 };
 
+const renderCatInMaxProfit = () => {
+    const categoryMajorProfit = getCategoryMax();
 
-const categoryMajorProfit = getCategoryMax();
-
-
-if (categoryMajorProfit) {
-    $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
-    $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
+    if (categoryMajorProfit) {
+        $('#tagCategory').textContent = `${categoryMajorProfit.category}`;
+        $('#amountCategory').textContent = `+$ ${categoryMajorProfit.amount}`;
+    }
 }
+
+renderCatInMaxProfit()
 
 
 
@@ -657,12 +658,16 @@ const getCategoryMaxExpense = () => {
     };
 };
 
-const categoryMaxExpense = getCategoryMaxExpense();
+const renderCatInMaxExpense = () => {
+    const categoryMaxExpense = getCategoryMaxExpense();
 
-if (categoryMaxExpense && categoryMaxExpense.category) {
-    $('#expenseCategory').textContent = `${categoryMaxExpense.category}`;
-    $('#quantityMinorCategory').textContent = `-$ ${categoryMaxExpense.amount}`;
+    if (categoryMaxExpense && categoryMaxExpense.category) {
+        $('#expenseCategory').textContent = `${categoryMaxExpense.category}`;
+        $('#quantityMinorCategory').textContent = `-$ ${categoryMaxExpense.amount}`;
+    }
 }
+
+renderCatInMaxExpense()
 
 
 
@@ -708,15 +713,14 @@ const getCategoryMaxBalance = () => {
         amount: maxBalanceAmount
     };
 };
-
-const categoryMaxBalance = getCategoryMaxBalance();
-
-if (categoryMaxBalance && categoryMaxBalance.category) {
-    $('#balanceCategory').textContent = `${categoryMaxBalance.category}`;
-    $('#balanceAmount').textContent = `+$ ${categoryMaxBalance.amount}`;
+const renderCatInMaxBalance = () => {
+    const categoryMaxBalance = getCategoryMaxBalance();
+    if (categoryMaxBalance && categoryMaxBalance.category) {
+        $('#balanceCategory').textContent = `${categoryMaxBalance.category}`;
+        $('#balanceAmount').textContent = `+$ ${categoryMaxBalance.amount}`;
+    }
 }
-
-
+renderCatInMaxBalance()
 
 //---- MONTH WITH HIGHEST PROFIT -----//
 
@@ -878,6 +882,7 @@ const getTotalsByCategory = () => {
     return totals;
 };
 const renderTotalsTable = () => {
+    cleanContainer('#totalsByCategorie')
     const totalsByCategory = getTotalsByCategory();
     const tableBody = $('#totalsByCategorie');
     for (const category in totalsByCategory) {
@@ -1057,6 +1062,10 @@ const initialize = () => {
         e.preventDefault()
         editCategory()
         showScreens("Categories")
+        renderTotalsTable()
+        renderCatInMaxBalance()
+        renderCatInMaxExpense()
+        renderCatInMaxProfit()
     })
 
     $('#cancelButton').addEventListener('click', () => {
