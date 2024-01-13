@@ -227,9 +227,7 @@ const editOperation = () => {
 const showFormEdit = (operationId) => {
     add(['.balance-screen', '#addButtonNo'])
     remove(['.new-operarion-screen', '#addEditButtonNo']) 
-    console.log(operationId)
     const operationSelected = getData('operations').find(operation => operation.id === operationId)
-    console.log(operationSelected)
     $('#descriptionNo').value = operationSelected.description
     $('#amountNo').value = operationSelected.amount
     $('#typeSelect').value = operationSelected.type
@@ -537,7 +535,6 @@ const validateCategoriesForm = (input , message , button) => {
 
 const messageWithoutOperationsReports = () => {
     const updatedData = getData('operations')
-    console.log(updatedData)
     if (updatedData.length <= 2) {
         remove(['#noReports']);
         add(['#withReports', '#summary']);
@@ -889,7 +886,6 @@ renderMonthTotalsTable();
 
 const darkMode = () => {
     const changingscreens = $$(".change")
-    console.log(changingscreens)
 
     for (const screen of changingscreens) {
         screen.classList.add('dark-mode')
@@ -902,7 +898,6 @@ const darkMode = () => {
 const lightMode = () => {
 
     const changingscreens = $$(".change")
-    console.log(changingscreens)
 
     for (const screen of changingscreens) {
         screen.classList.remove('dark-mode')
