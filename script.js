@@ -425,21 +425,18 @@ const showEditCategory = (categoryID) => {
 }
 
 const editCategory = () => {
-    const categoryId = $(".edit-category").getAttribute("data-id");
-    
-    const updatedCategory = modifyCategory(categoryId);
-
-    if (!updatedCategory) {
-        return;
-    }
-
-    const currentData = getData("categories").map(category => (category.id === categoryId) ? updatedCategory : category)
-
+    const categoryId = $(".edit-category").getAttribute("data-id")
+    const currentData = getData("categories").map(category => {
+        if (category.id === categoryId) {
+            return modifyCategory(categoryId)
+        }
+        return category
+    })
     setData("categories", currentData)
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
     renderInputCategoriesOptions(currentData)
-    iterateOperations(currentData)
+    iterateOperations(allOperation)
     $("#editCategoryButton").setAttribute("disabled" , true)
 }
 
