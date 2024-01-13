@@ -436,6 +436,7 @@ const editCategory = () => {
     renderCategories(currentData)
     renderCategoriesOptions(currentData)
     renderInputCategoriesOptions(currentData)
+    iterateOperations(currentData)
     $("#editCategoryButton").setAttribute("disabled" , true)
 }
 
@@ -453,6 +454,7 @@ const confirmDeleteCategory = (categoryId) => {
     renderCategories(deleteCategory(categoryId))
     renderCategoriesOptions(deleteCategory(categoryId))
     renderInputCategoriesOptions(deleteCategory(categoryId))
+    iterateOperations(currentData)
 }
 
 // -------------------- ****** VALIDATIONS ******--------------------//
@@ -929,7 +931,6 @@ const initialize = () => {
 
     $('#homeButton').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
 
     //----------------- DARK/LIGHT MODE-----------------//
@@ -946,7 +947,6 @@ const initialize = () => {
     });
     $('#showBalance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
     $('#showCategories').addEventListener('click', () => {
         showScreens("Categories")
@@ -960,7 +960,6 @@ const initialize = () => {
 
     $('#show-Balance').addEventListener('click', () => {
         showScreens("Balance")
-        window.location.reload()
     }) 
     $('#show-Categories').addEventListener('click', () => {
         showScreens("Categories")
